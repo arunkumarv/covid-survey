@@ -152,11 +152,11 @@
 
     <script>
 
-        let taluks = null; let selectedTaluk = null;
+        let taluks = null; 
 
-        let villages = null; let selectedVillage = null;
+        let villages = null; 
 
-        let areas = null; let selectedArea = null;
+        let areas = null; 
 
         function addStringArrayToSelect(selectId, stringArray) {
 
@@ -166,7 +166,7 @@
 
                 options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
             }
-            $(selectId).prepend("<option value=''>None</option>");
+            $(selectId).prepend("<option value='All'>All</option>");
 
             $(selectId).append(options);
         }
@@ -204,7 +204,7 @@
                 { name: 'lll', id: 456 },
             ];
 
-            addStringArrayToSelect("#areas", villages.map(ele => ele.name));
+            addStringArrayToSelect("#areas", areas.map(ele => ele.name));
         }
 
         $("#taluks").on("change", function () {
@@ -213,34 +213,18 @@
 
             $("#areas").empty();
 
-            if ( this.value == '' ) return;
+            if ( this.value == 'All' ) return;
 
-            selectedTaluk = this.value;
-
-            console.log(selectedTaluk);
-
-            getVillages(selectedTaluk);
+            getVillages(this.value);
         });
 
         $("#villages").on("change", function () {
 
             $("#areas").empty();
 
-            if ( this.value == '' ) return;
+            if ( this.value == 'All' ) return;
 
-            selectedVillage = this.value;
-
-            console.log(selectedVillage);
-
-            getAreas(selectedVillage);
-        });
-
-        $("#areas").on("change", function () {
-
-            selectedArea = this.value;
-
-            console.log(selectedArea);
-
+            getAreas(this.value);
         });
 
         // function getVillages
@@ -272,11 +256,13 @@
 
                 obj['district'] = district.id;
 
-                obj['taluk'] = selectedTaluk;
+                console.log ( $("#taluks").val() )
 
-                obj['village'] = selectedVillage;
+                obj['taluk'] = $("#taluks").val() == 'All'? taluks.map ( ele => ele.id ) : [$("#taluks").val()];
 
-                obj['area'] = selectedArea;
+                obj['village'] = $("#villages").val() == 'All'? villages.map ( ele => ele.id ) : [$("#villages").val()];
+
+                obj['area'] = $("#areas").val() == 'All'? areas.map ( ele => ele.id ) : [$("#areas").val()];
 
                 let type = $("input[name='type']:checked").val();
 

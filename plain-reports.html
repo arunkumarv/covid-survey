@@ -68,7 +68,7 @@
                 </td>
                 <td>
                     <input type="radio" name="type" value="symptomsBased" checked>Symptoms based
-                    <div>
+                    <div id="symptomsSelector">
                         <input type="checkbox" name="symptoms" value="Cough">Cough
                         <input type="checkbox" name="symptoms" value="Cold">Cold
                         <input type="checkbox" name="symptoms" value="Fever">Fever
@@ -152,11 +152,11 @@
 
     <script>
 
-        let taluks = null; 
+        let taluks = null;
 
-        let villages = null; 
+        let villages = null;
 
-        let areas = null; 
+        let areas = null;
 
         function addStringArrayToSelect(selectId, stringArray) {
 
@@ -213,7 +213,7 @@
 
             $("#areas").empty();
 
-            if ( this.value == 'All' ) return;
+            if (this.value == 'All') return;
 
             getVillages(this.value);
         });
@@ -222,9 +222,25 @@
 
             $("#areas").empty();
 
-            if ( this.value == 'All' ) return;
+            if (this.value == 'All') return;
 
             getAreas(this.value);
+        });
+
+        $('input[type=radio][name=type]').change(function () {
+
+            if (this.value == 'symptomsBased') {
+
+                $("#symptomsSelector").show();
+
+                $("#dateSelector").show();
+
+            } else {
+
+                $("#symptomsSelector").hide();
+
+                $("#dateSelector").hide();
+            }
         });
 
         // function getVillages
@@ -236,18 +252,6 @@
 
             getTaluks(district.name);
 
-            $('input[type=radio][name=type]').change(function () {
-
-                if (this.value == 'symptomsBased') {
-
-                    $("#dateSelector").show();
-
-                } else {
-
-                    $("#dateSelector").hide();
-                }
-            });
-
             $("#show-details-form").on('submit', function (e) {
 
                 e.preventDefault();
@@ -256,13 +260,13 @@
 
                 obj['district'] = district.id;
 
-                console.log ( $("#taluks").val() )
+                console.log($("#taluks").val())
 
-                if ($("#taluks").val() != null ) obj['taluk'] = $("#taluks").val() == 'All'? taluks.map ( ele => ele.id ) : [ taluks.filter ( ele => ele.name == $("#taluks").val())[0].id];
+                if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => ele.id) : [taluks.filter(ele => ele.name == $("#taluks").val())[0].id];
 
-                if ($("#villages").val() != null ) obj['village'] = $("#villages").val() == 'All'? villages.map ( ele => ele.id ) : [ villages.filter ( ele => ele.name == $("#villages").val())[0].id];
+                if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => ele.id) : [villages.filter(ele => ele.name == $("#villages").val())[0].id];
 
-                if ($("#areas").val() != null )  obj['area'] = $("#areas").val() == 'All'? areas.map ( ele => ele.id ) : [ areas.filter ( ele => ele.name == $("#areas").val())[0].id];
+                if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => ele.id) : [areas.filter(ele => ele.name == $("#areas").val())[0].id];
 
                 let type = $("input[name='type']:checked").val();
 
@@ -335,7 +339,7 @@
 
                 let gender = $("input[name='gender']:checked").val();
 
-                obj['gender'] = gender;
+                obj['gender'] = gender == 'All' ? ["Male", "Female", "Others"]: [gender];
 
                 let minAge = $("#minAge").val();
 

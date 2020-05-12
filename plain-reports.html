@@ -69,6 +69,11 @@
                         <input type="number" name="mobile" id="mobile" placeholder="Mobilenumber">
                     </div>
 
+                    <input type="radio" name="type"  value="dayBased">Day wise
+                    <div>
+                        <input type="date" name="typeDate" id="typeDate">
+                    </div>
+
                 </td>
             </tr>
             <tr>
@@ -169,6 +174,14 @@
                         let mobile = $('#mobile').val();
 
                         obj['mobile'] = mobile
+
+                        break;
+                    
+                    case 'dayBased':
+
+                        let typeDate  = $('#typeDate').val();
+
+                        obj['date'] = typeDate;
                 }
 
                 let dateType = $("input[name='dateType']:checked").val();

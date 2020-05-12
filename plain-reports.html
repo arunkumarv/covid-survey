@@ -34,14 +34,32 @@
     <form id="show-details-form" name="show-details-form">
         <table>
             <tr>
+                <td>District</td>
+                <td id="districtName"></td>
+            </tr>
+            <tr>
                 <td>
-                    District
+                    Taluks
                 </td>
                 <td>
-                    <select name="district" id="district">
-                        <option value="Yavatmol">Yavatmol</option>
-                        <option value="Dist2">Dist2</option>
-                    </select>
+                    <select name="taluks" id="taluks"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Villages
+                </td>
+                <td>
+                    <select name="villages" id="villages"></select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Areas
+                </td>
+                <td>
+                    <select name="areas" id="areas"></select>
                 </td>
             </tr>
             <tr>
@@ -76,7 +94,8 @@
 
                 </td>
             </tr>
-            <tr id="dateSelector"><!-- This id dateSelector should be present -->
+            <tr id="dateSelector">
+                <!-- This id dateSelector should be present -->
                 <td>Date</td>
                 <td>
                     <input type="radio" name="dateType" value="today" checked>As of Today
@@ -117,7 +136,7 @@
                 <td>Age</td>
                 <td>
                     Min: <input type="number" name="minAge" id="minAge" value="0">
-                    Max: <input type="number" name="maxAge" id="maxAge" value="0">
+                    Max: <input type="number" name="maxAge" id="maxAge" value="100">
                 </td>
             </tr>
             <tr>
@@ -133,7 +152,105 @@
 
     <script>
 
+        let taluks = null; let selectedTaluk = null;
+
+        let villages = null; let selectedVillage = null;
+
+        let areas = null; let selectedArea = null;
+
+        function addStringArrayToSelect(selectId, stringArray) {
+
+            let options = '';
+
+            for (let i = 0; i < stringArray.length; i++) {
+
+                options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
+            }
+            $(selectId).prepend("<option value=''>None</option>");
+
+            $(selectId).append(options);
+        }
+
+        function getTaluks(name) {
+
+            taluks = [
+                { name: 'aaa', id: 123 },
+                { name: 'bbb', id: 234 },
+                { name: 'ccc', id: 345 },
+                { name: 'ddd', id: 456 },
+            ];
+
+            addStringArrayToSelect("#taluks", taluks.map(ele => ele.name));
+        }
+
+        function getVillages(name) {
+
+            villages = [
+                { name: 'eee', id: 123 },
+                { name: 'fff', id: 234 },
+                { name: 'ggg', id: 345 },
+                { name: 'hhh', id: 456 },
+            ];
+
+            addStringArrayToSelect("#villages", villages.map(ele => ele.name));
+        }
+
+        function getAreas(name) {
+
+            areas = [
+                { name: 'iii', id: 123 },
+                { name: 'jjj', id: 234 },
+                { name: 'kkk', id: 345 },
+                { name: 'lll', id: 456 },
+            ];
+
+            addStringArrayToSelect("#areas", villages.map(ele => ele.name));
+        }
+
+        $("#taluks").on("change", function () {
+
+            $("#villages").empty();
+
+            $("#areas").empty();
+
+            if ( this.value == '' ) return;
+
+            selectedTaluk = this.value;
+
+            console.log(selectedTaluk);
+
+            getVillages(selectedTaluk);
+        });
+
+        $("#villages").on("change", function () {
+
+            $("#areas").empty();
+
+            if ( this.value == '' ) return;
+
+            selectedVillage = this.value;
+
+            console.log(selectedVillage);
+
+            getAreas(selectedVillage);
+        });
+
+        $("#areas").on("change", function () {
+
+            selectedArea = this.value;
+
+            console.log(selectedArea);
+
+        });
+
+        // function getVillages
         $(function () {
+
+            let district = { name: 'Yamaha', id: 1234 };
+
+            $("#districtName").html(district.name);
+
+            getTaluks(district.name);
 
             $('input[type=radio][name=type]').change(function () {
 
@@ -146,17 +263,20 @@
                     $("#dateSelector").hide();
                 }
             });
+
             $("#show-details-form").on('submit', function (e) {
 
                 e.preventDefault();
 
-                console.log(new FormData(this))
-
                 let obj = {};
 
-                let district = $("#district option:selected").text();
+                obj['district'] = district.id;
 
-                obj['district'] = district;
+                obj['taluk'] = selectedTaluk;
+
+                obj['village'] = selectedVillage;
+
+                obj['area'] = selectedArea;
 
                 let type = $("input[name='type']:checked").val();
 

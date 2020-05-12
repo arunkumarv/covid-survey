@@ -258,11 +258,11 @@
 
                 console.log ( $("#taluks").val() )
 
-                obj['taluk'] = $("#taluks").val() == 'All'? taluks.map ( ele => ele.id ) : [$("#taluks").val()];
+                if ($("#taluks").val() != null ) obj['taluk'] = $("#taluks").val() == 'All'? taluks.map ( ele => ele.id ) : [$("#taluks").val()];
 
-                obj['village'] = $("#villages").val() == 'All'? villages.map ( ele => ele.id ) : [$("#villages").val()];
+                if ($("#villages").val() != null ) obj['village'] = $("#villages").val() == 'All'? villages.map ( ele => ele.id ) : [$("#villages").val()];
 
-                obj['area'] = $("#areas").val() == 'All'? areas.map ( ele => ele.id ) : [$("#areas").val()];
+                if ($("#areas").val() != null )  obj['area'] = $("#areas").val() == 'All'? areas.map ( ele => ele.id ) : [$("#areas").val()];
 
                 let type = $("input[name='type']:checked").val();
 

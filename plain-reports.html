@@ -64,44 +64,45 @@
                         <input type="checkbox" name="symptoms" value="Others">Others
                     </div>
                     <br>
-                    <input type="radio" name="type"  value="userBased">User based
+                    <input type="radio" name="type" value="userBased">User based
                     <div>
                         <input type="number" name="mobile" id="mobile" placeholder="Mobilenumber">
                     </div>
 
-                    <input type="radio" name="type"  value="dayBased">Day wise
+                    <input type="radio" name="type" value="dayBased">Day wise
                     <div>
                         <input type="date" name="typeDate" id="typeDate">
                     </div>
 
                 </td>
             </tr>
-            <tr>
+            <tr id="dateSelector">
                 <td>Date</td>
                 <td>
-                    <input type="radio" name="dateType" value="today" checked>As of Today
-                    <br>
+                  
+                        <input type="radio" name="dateType" value="today" checked>As of Today
+                        <br>
 
-                    <input type="radio" name="dateType" value="past">Continous infection in past 
-                    <select name="daysPast" id="daysPast">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select> days
-                    <br>
+                        <input type="radio" name="dateType" value="past">Continous infection in past
+                        <select name="daysPast" id="daysPast">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select> days
+                    
 
-                   <!--  <input type="radio" name="dateType" value="range">Range
+                    <!--  <input type="radio" name="dateType" value="range">Range
                     <div>
                         From: <input type="date" name="dateMin" id="dateMin" value=2020-01-01>
                         To: <input type="date" name="dateMax" id="dateMax" value=2020-01-01>
                     </div> -->
-                    
-                   
+
+
                 </td>
             </tr>
-           <!--  <tr>
+            <!--  <tr>
                 <td>Check</td>
                 <td>
                     <input type="radio" name="check" value="all" checked>Symptom on All selected days
@@ -139,8 +140,17 @@
 
         $(function () {
 
-            
+            $('input[type=radio][name=type]').change(function () {
 
+                if (this.value == 'symptomsBased') {
+
+                    $("#dateSelector").show();
+
+                } else {
+
+                    $("#dateSelector").hide();
+                }
+            });
             $("#show-details-form").on('submit', function (e) {
 
                 e.preventDefault();
@@ -176,43 +186,46 @@
                         obj['mobile'] = mobile
 
                         break;
-                    
+
                     case 'dayBased':
 
-                        let typeDate  = $('#typeDate').val();
+                        let typeDate = $('#typeDate').val();
 
                         obj['date'] = typeDate;
                 }
 
-                let dateType = $("input[name='dateType']:checked").val();
+                if (obj['type'] == 'symptomsBased') {
 
-                obj['dateType'] = dateType;
+                    let dateType = $("input[name='dateType']:checked").val();
 
-                switch (dateType) {
+                    obj['dateType'] = dateType;
 
-                    case 'today':
+                    switch (dateType) {
 
-                        let today = new Date();
+                        case 'today':
 
-                        obj['time'] = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
+                            let today = new Date();
 
-                        break;
+                            obj['time'] = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
 
-                    case 'range':
+                            break;
 
-                        let dateMin = $('#dateMin').val();
+                        case 'range':
 
-                        let dateMax = $('#dateMax').val();
+                            let dateMin = $('#dateMin').val();
 
-                        obj['time'] = { min: dateMin, max: dateMax };
+                            let dateMax = $('#dateMax').val();
 
-                        break;
+                            obj['time'] = { min: dateMin, max: dateMax };
 
-                    case 'past':
+                            break;
 
-                        let past = $("#daysPast option:selected").text();
+                        case 'past':
 
-                        obj ['time'] = past;
+                            let past = $("#daysPast option:selected").text();
+
+                            obj['time'] = past;
+                    }
                 }
 
                 let check = $("input[name='check']:checked").val();

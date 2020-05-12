@@ -21,7 +21,7 @@
     </select>
 
     <div>Houses
-        <div id="houses">No Data</div>
+        <div id="Family">No Data</div>
     </div>
     <div>Citzen
         <div id="Citzen">No Data</div>
@@ -31,9 +31,6 @@
     </div>
     <div>Diabetes
         <div id="Diabetes">No Data</div>
-    </div>
-    <div>Family
-        <div id="Family">No Data</div>
     </div>
     <div>Hyper Tension
         <div id="Hyper-tension">No Data</div>
@@ -68,7 +65,7 @@
 
             $.get(apiHost.concat("/survey/count"), { district_id: selectedDistrictId }, function (res) {
 
-                // console.log(res);
+                console.log(res);
 
                 if (res.status == true) {
 

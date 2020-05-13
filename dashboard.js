@@ -8,7 +8,23 @@ let villages = null;
 
 let map = null;
 
+let markers = [];
+
 let groupedBarChartCtx = null, groupedBarChart = null; pie1ChartCtx = null, pie1Chart = null, pie2ChartCtx = null, pie2Chart = null;
+
+let markerIconUrl = "static/red-dot.png";
+
+var MarkerIcon = L.Icon.extend({
+    options: {
+        iconSize: [10, 10],
+        //shadowSize: [50, 64],
+        //iconAnchor: [22, 94],
+        //shadowAnchor: [4, 62],
+        //popupAnchor: [-3, -76]
+    }
+});
+
+var markerIcon = new MarkerIcon({ iconUrl: markerIconUrl });
 
 var groupedBarChartData = {
     labels: [],
@@ -87,7 +103,43 @@ var pie2ChartOptions = {
     }
 }
 
-function updatePieChart ( chart, label, data ) {
+function findBounds(latlngs) {
+
+    // console.clear();
+
+    console.log(latlngs);
+
+    let delta = 0.1
+
+    if (latlngs.length == 0) return null;
+
+    if (latlngs.length == 1) return [
+
+        [parseFloat(latlngs[0][0]) + delta, parseFloat(latlngs[0][1]) + delta],
+
+        [parseFloat(latlngs[0][0]) - delta, parseFloat(latlngs[0][1]) - delta],
+    ];
+
+    latlngs.forEach((i, e) => latlngs[i] = [parseFloat(e[0]), parseFloat(e[1])]);
+
+    let lats = latlngs.map(ele => ele[0]);
+
+    let lngs = latlngs.map(ele => ele[1]);
+
+    let bounds = [
+
+        [Math.max.apply(null, lats), Math.max.apply(null, lngs)],
+
+        [Math.min.apply(null, lats), Math.min.apply(null, lngs)]
+    ];
+
+    // console.log(bounds);
+
+    return bounds;
+
+}
+
+function updatePieChart(chart, label, data) {
 
     chart.data.labels.push(label);
 
@@ -96,6 +148,18 @@ function updatePieChart ( chart, label, data ) {
         dataset.data.push(data);
     });
     chart.update();
+}
+
+function clearMarkers() {
+
+    if (markers.length) {
+
+        markers.forEach((marker) => {
+
+            map.removeLayer(marker);
+        });
+    }
+    markers = [];
 }
 
 function getCounts(params) {
@@ -130,15 +194,44 @@ function printError(endpoint, params, res) {
     console.log('output', res)
 }
 
+function getMap(params) {
+
+    $.get(apiHost.concat("/survey/getmap"), params, function (res) {
+
+        console.log('map', res );
+
+        if (res.status == true) {
+
+            clearMarkers()
+
+            $.each(res.data, function (index, value) {
+
+                // console.log(value)
+
+                markers.push ( L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup(""+value[2]));
+
+                // markers.push(L.circle([parseFloat(value[0]), parseFloat(value[1])], { color: 'red', fillColor: '#f03', fillOpacity: 0.5, radius: value[2] * 10 }).addTo(map).bindPopup(""+value[2]));
+            })
+
+            let bounds = findBounds(res.data);
+
+            if (bounds) {
+
+                map.fitBounds(bounds);
+            }
+        }
+    });
+}
+
 function getBar(params) {
 
-    console.log ( "---------")
+    console.log("---------")
 
     $.get(apiHost.concat("/survey/bar"), params, function (res) {
 
         if (res.status == true) {
 
-            console.log ( 'bar', res );
+            console.log('bar', res);
 
             let labels = Object.keys(res.data);
 
@@ -183,7 +276,7 @@ function getPie1(params) {
 
         if (res.status == true) {
 
-            console.log ( 'pie1', res );
+            console.log('pie1', res);
 
             Object.keys(res.data).forEach(function (value, index) {
 
@@ -210,7 +303,7 @@ function getPie2(params) {
 
         if (res.status == true) {
 
-            console.log ( 'pie2', res );
+            console.log('pie2', res);
 
             Object.keys(res.data).forEach(function (value, index) {
 
@@ -224,7 +317,7 @@ function getPie2(params) {
     });
 }
 
-function resToKeyValue ( obj ) {
+function resToKeyValue(obj) {
 
     let arr = [];
 
@@ -309,6 +402,8 @@ function getAreas(districtId, talukId, villageId) {
 
 function updateAll(params) {
 
+    getMap(params);
+
     getCounts(params);
 
     getBar(params);
@@ -384,13 +479,13 @@ $("#areas").on("change", function () {
 
 $(function () {
 
-    map = L.map('mapid').setView([21.106825, 79.918830], 5);   
-    
+    map = L.map('mapid').setView([21.106825, 79.918830], 5);
+
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 'attribution': 'Map data &copy; OpenStreetMap contributors' }).addTo(map);
     // L.tileLayer.wms('https://bhuvan-vec1.nrsc.gov.in/bhuvan/gwc/service/wms?', {layers: 'indiainf',maxZoom: 18 }).addTo(map);
 
     groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
-    
+
     groupedBarChart = new Chart(groupedBarChartCtx, {
         type: "bar",
         data: groupedBarChartData,
@@ -413,15 +508,17 @@ $(function () {
         options: pie2ChartOptions
     });
 
-    $("#district").html ( district.name );
+    $("#district").html(district.name);
 
-    getCounts ({ district_id: district.id });
+    getMap({ district_id: district.id })
 
-    getBar ({ district_id: district.id });
+    getCounts({ district_id: district.id });
 
-    getPie1 ({ district_id: district.id });
+    getBar({ district_id: district.id });
 
-    getPie2 ({ district_id: district.id });
+    getPie1({ district_id: district.id });
 
-    getTaluks ( district.id );
+    getPie2({ district_id: district.id });
+
+    getTaluks(district.id);
 });

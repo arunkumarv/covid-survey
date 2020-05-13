@@ -265,17 +265,21 @@ $(function () {
 
          if (submitHost != '') {
 
-             $.ajax({
+            $.post ( submitHost, obj, function(res){
+                
+                console.log ( res )
+            })
+            /*  $.ajax({
                  url: submitHost,
                  type: 'POST',
-                 data: JSON.stringify(obj),
+                 data: obj,
                  contentType: 'application/json; charset=utf-8',
                  dataType: 'json',
                  async: false,
                  success: function (res) {
                      console.log(res)
                  }
-             });
+             }); */
          }  
     });
 });

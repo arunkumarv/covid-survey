@@ -11,18 +11,6 @@
     <script src="static/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-
-        td {
-            border: 1px solid #eaeaea;
-            padding: 10px;
-        }
-
-       
-    </style>
 </head>
 
 <body>
@@ -83,7 +71,7 @@
 
           <div class="form-group row">
                    <label for="colFormLabelSm" class="col-sm-2 col-form-label ">   &nbsp; </label>
-                <div class="col-sm-6">   <div id="symptomsSelector" class="form-check form-check-inline">
+                <div class="col-sm-10"  id="symptomsSelector">   <div class="form-check form-check-inline">
                       <div class="form-check form-check-inline">   <input type="checkbox" name="symptoms" class="form-check-input"  value="Cough">   <label class="form-check-label" >  Cough </label> </div><div class="form-check form-check-inline"> 
                         <input type="checkbox" name="symptoms" class="form-check-input"  value="Cold">   <label class="form-check-label" > Cold</label> </div><div class="form-check form-check-inline"> 
                         <input type="checkbox" name="symptoms" class="form-check-input"  value="Fever">   <label class="form-check-label" > Fever</label> </div><div class="form-check form-check-inline"> 
@@ -97,24 +85,24 @@
                         <input type="checkbox" name="symptoms"  class="form-check-input" value="Others">  <label class="form-check-label" >  Others</label> </div>
                     </div>    
 
-
-<div id="test1">
-  <input type="number"  class="form-control" name="mobile" id="mobile" placeholder="Mobilenumber">
+        </div>
+ <div class="col-sm-3" id="mobile">
+  <input type="number"  class="form-control" name="mobile"  placeholder="Mobilenumber">
 </div>
-<div id="test2">  <input type="date" name="typeDate" class="form-control" id="typeDate" value=2020-01-01></div>
+ <div class="col-sm-2" id="typeDate">  <input type="date" name="typeDate" class="form-control"  value=2020-01-01></div>
 
-					</div> </div>
+	</div>
 				   
 				   
 				   
 				   
-            <tr id="dateSelector">
+                 <div class="form-group row" id="dateSelector">
                 <!-- This id dateSelector should be present -->
-                <td>Date</td>
-                <td>
-                    <input type="radio" name="dateType" value="today" checked>As of Today
-                    <br>
-                    <input type="radio" name="dateType" value="past">Continous infection in past
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label ">  Date</label>
+         <div class="col-sm-6" >
+                  <div class="form-check form-check-inline">   <input type="radio" name="dateType" class="form-check-input" value="today" checked>  <label class="form-check-label" >As of Today </label>
+                   </div>
+                         <div class="form-check form-check-inline">    <input type="radio" class="form-check-input" name="dateType" value="past"> <label class="form-check-label" > Continous infection in past  </label>
                     <select name="daysPast" id="daysPast">
                         <option>1</option>
                         <option>2</option>
@@ -122,14 +110,14 @@
                         <option>4</option>
                         <option>5</option>
                     </select> days
-
+</div>
                     <!--  <input type="radio" name="dateType" value="range">Range
                     <div>
                         From: <input type="date" name="dateMin" id="dateMin" value=2020-01-01>
                         To: <input type="date" name="dateMax" id="dateMax" value=2020-01-01>
                     </div> -->
-                </td>
-            </tr>
+             </div>
+			 </div>
             <!--  <tr>
                 <td>Check</td>
                 <td>
@@ -137,28 +125,22 @@
                     <input type="radio" name="check" value="any">Symptom on Any selected days
                 </td>
             </tr> -->
-            <tr> 
-                <td>Gender</td>
-                <td> 
-                    <input type="radio" name="gender" value="Male">Male
-                    <input type="radio" name="gender" value="Female">Female
-                    <input type="radio" name="gender" value="Others">Others
-                    <input type="radio" name="gender" value="All" checked>All
-                </td>
-            </tr>
-            <tr>
-                <td>Age</td>
-                <td>
+    <div class="form-group row" >  <label for="colFormLabelSm" class="col-sm-2 col-form-label "> Gender</label>
+                <div class="col-sm-6" >
+                     <div class="form-check form-check-inline">  <input type="radio" class="form-check-input" name="gender" value="Male">Male </div>
+                     <div class="form-check form-check-inline">  <input type="radio"  class="form-check-input" name="gender" value="Female">Female</div>
+                    <div class="form-check form-check-inline">   <input type="radio" class="form-check-input" name="gender" value="Others">Others</div>
+                    <div class="form-check form-check-inline">   <input type="radio" class="form-check-input" name="gender" value="All" checked>All</div>
+              </div> </div>
+        
+  <div class="form-group row" >  <label for="colFormLabelSm" class="col-sm-2 col-form-label ">Age</label>
+                 <div class="col-sm-6" >
                     Min: <input type="number" name="minAge" id="minAge" value="0">
                     Max: <input type="number" name="maxAge" id="maxAge" value="100">
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Submit">
-                </td>
-            </tr>
+               </div> </div>
+        <div class="form-group row" >  <label for="colFormLabelSm" class="col-sm-2 col-form-label "> &nbsp; </label>
+                     <div class="col-sm-6" >       <input type="submit" class="btn btn-primary" value="Submit">
+             </div> </div>
   
     </form> </div></div>
 

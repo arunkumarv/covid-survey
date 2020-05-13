@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports</title>
+	    <link rel="stylesheet" href="static/bootstrap.min.css">
     <script src="static/jquery-3.2.1.min.js"></script>
+	    <script src="static/popper.min.js"></script>
+    <script src="static/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 
     <style>
@@ -18,82 +21,93 @@
             padding: 10px;
         }
 
-        div {
-            padding: 10px;
-            border: 1px solid #ececec;
-            margin: 2px;
-        }
+       
     </style>
 </head>
 
 <body>
-    <div style="margin-bottom: 10px;">
-        <input type="text" name="api" id="api" placeholder="API full link"> (eg: https://covid19.cdacchn.in/api/report,
+    <div class="card">     <div class="card-body">
+        <input type="text" class="form-control" name="api" id="api" placeholder="API full link"> (eg: https://covid19.cdacchn.in/api/report,
         if this box has api link then request will be fired to that link along with object)
-    </div>
-    <form id="show-details-form" name="show-details-form">
-        <table>
-            <tr>
-                <td>District</td>
-                <td id="districtName"></td>
-            </tr>
-            <tr>
-                <td>
-                    Taluks
-                </td>
-                <td>
-                    <select name="taluks" id="taluks"></select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Villages
-                </td>
-                <td>
-                    <select name="villages" id="villages"></select>
-                </td>
-            </tr>
+    </div>  </div>
+       <div class="card">     <div class="card-body">  <form id="show-details-form" name="show-details-form">
+    
+           <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">District</label>
+                <div class="col-sm-4"  id="districtName"></div>
+          </div>
+        
+           <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
+                    Taluks</label>
+                <div class="col-sm-4">
+                    <select name="taluks" class="form-control" id="taluks"></select>
+           </div>
+          </div>
+            <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
+                    Villages</label>
+                <div class="col-sm-4">
+                    <select name="villages"  
+                    <select name="taluks" class="form-control" id="villages"></select>
+          </div>
+          </div>
 
-            <tr>
-                <td>
+              <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
                     Areas
-                </td>
-                <td>
-                    <select name="areas" id="areas"></select>
-                </td>
-            </tr>
-            <tr>
-                <td>
+               </label>
+                <div class="col-sm-4">
+                    <select name="areas" class="form-control" id="areas"></select>
+            </div>
+          </div>
+         
+              <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
                     Based
-                </td>
-                <td>
-                    <input type="radio" name="type" value="symptomsBased" checked>Symptoms based
-                    <div id="symptomsSelector">
-                        <input type="checkbox" name="symptoms" value="Cough">Cough
-                        <input type="checkbox" name="symptoms" value="Cold">Cold
-                        <input type="checkbox" name="symptoms" value="Fever">Fever
-                        <input type="checkbox" name="symptoms" value="Diabetes">Diabetes
-                        <input type="checkbox" name="symptoms" value="Sari">Sari
-                        <input type="checkbox" name="symptoms" value="High Risk Contact">High Risk Contact
-                        <input type="checkbox" name="symptoms" value="Low Risk Contact">Low Risk Contact
-                        <input type="checkbox" name="symptoms" value="PNC">PNC
-                        <input type="checkbox" name="symptoms" value="ANC">ANC
-                        <input type="checkbox" name="symptoms" value="Hyper Tension">Hyper Tension
-                        <input type="checkbox" name="symptoms" value="Others">Others
-                    </div>
-                    <br>
-                    <input type="radio" name="type" value="userBased">User based
-                    <div>
-                        <input type="number" name="mobile" id="mobile" placeholder="Mobilenumber">
-                    </div>
+               </label>
+                <div class="col-sm-10"> <div class="form-check form-check-inline">
+                    <input type="radio" name="type" value="symptomsBased"  class="form-check-input"  checked>   <label class="form-check-label" > Symptoms based </label>
+                  
+                   </div><div class="form-check form-check-inline">
+                    <input type="radio" name="type"  class="form-check-input"  value="userBased"> <label class="form-check-label" > User based </label>
+              
+                                 </div><div class="form-check form-check-inline"> 
 
-                    <input type="radio" name="type" value="dayBased">Day wise
-                    <div>
-                        <input type="date" name="typeDate" id="typeDate" value=2020-01-01>
-                    </div>
+                    <input type="radio" name="type" class="form-check-input"  value="dayBased"> <label class="form-check-label" >  Day wise </label> 
+                               </div>
 
-                </td>
-            </tr>
+             </div>            
+</div>
+
+
+          <div class="form-group row">
+                   <label for="colFormLabelSm" class="col-sm-2 col-form-label ">   &nbsp; </label>
+                <div class="col-sm-6">   <div id="symptomsSelector" class="form-check form-check-inline">
+                      <div class="form-check form-check-inline">   <input type="checkbox" name="symptoms" class="form-check-input"  value="Cough">   <label class="form-check-label" >  Cough </label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Cold">   <label class="form-check-label" > Cold</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Fever">   <label class="form-check-label" > Fever</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Diabetes">   <label class="form-check-label" >  Diabetes</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Sari">   <label class="form-check-label" > Sari</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="High Risk Contact">  <label class="form-check-label" >  High Risk Contact</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Low Risk Contact">  <label class="form-check-label" >  Low Risk Contact</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="PNC">   <label class="form-check-label" > PNC</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="ANC">  <label class="form-check-label" >  ANC</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms" class="form-check-input"  value="Hyper Tension">  <label class="form-check-label" >  Hyper Tension</label> </div><div class="form-check form-check-inline"> 
+                        <input type="checkbox" name="symptoms"  class="form-check-input" value="Others">  <label class="form-check-label" >  Others</label> </div>
+                    </div>    
+
+
+<div id="test1">
+  <input type="number"  class="form-control" name="mobile" id="mobile" placeholder="Mobilenumber">
+</div>
+<div id="test2">  <input type="date" name="typeDate" class="form-control" id="typeDate" value=2020-01-01></div>
+
+					</div> </div>
+				   
+				   
+				   
+				   
             <tr id="dateSelector">
                 <!-- This id dateSelector should be present -->
                 <td>Date</td>
@@ -145,8 +159,8 @@
                     <input type="submit" value="Submit">
                 </td>
             </tr>
-        </table>
-    </form>
+  
+    </form> </div></div>
 
     <pre id="json" class="prettyprint"></pre>
 

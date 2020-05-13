@@ -1,10 +1,10 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let selectedDistrictId = 376
+let district = { name: 'Yavatmol', id: 376 };
 
-$(function () {
+function getCounts(params) {
 
-    $.get(apiHost.concat("/survey/count"), { district_id: selectedDistrictId }, function (res) {
+    $.get(apiHost.concat("/survey/count"), params, function (res) {
 
         console.log(res);
 
@@ -23,8 +23,11 @@ $(function () {
             $("#Travel-history").html(res.data['Travel-history'])
         }
     });
+}
 
-    $.get(apiHost.concat("/survey/bar"), { district_id: selectedDistrictId }, function (res) {
+function getBar(params) {
+
+    $.get(apiHost.concat("/survey/bar"), params, function (res) {
 
         console.log(res)
 
@@ -56,8 +59,11 @@ $(function () {
 
 
     });
+}
 
-    $.get(apiHost.concat("/survey/pie1"), { district_id: selectedDistrictId }, function (res) {
+function getPie1(params) {
+
+    $.get(apiHost.concat("/survey/pie1"), params, function (res) {
 
         // console.log('pie1', res)
 
@@ -69,8 +75,11 @@ $(function () {
             })
         }
     });
+}
 
-    $.get(apiHost.concat("/survey/pie2"), { district_id: selectedDistrictId }, function (res) {
+function getPie2(params) {
+
+    $.get(apiHost.concat("/survey/pie2"), params, function (res) {
 
         // console.log('pie2', res)
 
@@ -83,30 +92,43 @@ $(function () {
         }
 
     });
+}
 
-    var groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
+$(function () {
 
-    var groupedBarChart = new Chart(groupedBarChartCtx, {
-        type: "bar",
-        data: groupedBarChartData,
-        options: groupedBarChartOptions
-    });
-    var pie1ChartCtx = document.getElementById("pie1Chart").getContext("2d");
+    $("#district").html(district.name);
 
-    var pie1Chart = new Chart(pie1ChartCtx, {
-        type: 'pie',
-        data: pie1ChartData,
-        options: pie1ChartOptions
-    });
-    var pie2ChartCtx = document.getElementById("pie2Chart").getContext("2d");
+    getCounts ({ district_id: district.id });
 
-    var pie2Chart = new Chart(pie2ChartCtx, {
-        type: 'pie',
-        data: pie2ChartData,
-        options: pie2ChartOptions
-    });
+    getBar ({ district_id: district.id });
 
+    getPie1 ({ district_id: district.id });
 
+    getPie2 ({ district_id: district.id });
+
+});
+
+var groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
+
+var groupedBarChart = new Chart(groupedBarChartCtx, {
+    type: "bar",
+    data: groupedBarChartData,
+    options: groupedBarChartOptions
+});
+
+var pie1ChartCtx = document.getElementById("pie1Chart").getContext("2d");
+
+var pie1Chart = new Chart(pie1ChartCtx, {
+    type: 'pie',
+    data: pie1ChartData,
+    options: pie1ChartOptions
+});
+var pie2ChartCtx = document.getElementById("pie2Chart").getContext("2d");
+
+var pie2Chart = new Chart(pie2ChartCtx, {
+    type: 'pie',
+    data: pie2ChartData,
+    options: pie2ChartOptions
 });
 
 var groupedBarChartData = {

@@ -10,6 +10,9 @@
     <script src="static/popper.min.js"></script>
     <script src="static/bootstrap.min.js"></script>
     <script src="static/run_prettify.js"></script>
+    <script src="static/leaflet.js"></script>
+    <link rel="stylesheet" href="static/leaflet.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 
 <body>
@@ -88,18 +91,23 @@
             </div>
         </div>
 
-
-
         <div class="row mt-3">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <canvas id="groupedBarChart" width="400" height="160"></canvas> </div>
+                        <div id="mapid"></div>
+                    </div>
                 </div>
             </div>
-
-
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="groupedBarChart" width="400" height="300"></canvas> 
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="row mt-3">
             <div class="col-md-6">
                 <div class="card">

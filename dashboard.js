@@ -6,6 +6,8 @@ let taluks = null;
 
 let villages = null;
 
+let map = null;
+
 let groupedBarChartCtx = null, groupedBarChart = null; pie1ChartCtx = null, pie1Chart = null, pie2ChartCtx = null, pie2Chart = null;
 
 var groupedBarChartData = {
@@ -382,8 +384,13 @@ $("#areas").on("change", function () {
 
 $(function () {
 
+    map = L.map('mapid').setView([21.106825, 79.918830], 5);   
+    
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 'attribution': 'Map data &copy; OpenStreetMap contributors' }).addTo(map);
+    // L.tileLayer.wms('https://bhuvan-vec1.nrsc.gov.in/bhuvan/gwc/service/wms?', {layers: 'indiainf',maxZoom: 18 }).addTo(map);
+
     groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
-    // groupedBarChartCtx.height = 200;
+    
     groupedBarChart = new Chart(groupedBarChartCtx, {
         type: "bar",
         data: groupedBarChartData,

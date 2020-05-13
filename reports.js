@@ -178,11 +178,11 @@ $(function () {
 
         console.log($("#taluks").val())
 
-        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => ele.id) : [taluks.filter(ele => ele.name == $("#taluks").val())[0].id];
+        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt (taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
 
-        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => ele.id) : [villages.filter(ele => ele.name == $("#villages").val())[0].id];
+        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
 
-        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => ele.id) : [areas.filter(ele => ele.name == $("#areas").val())[0].id];
+        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => parseInt(ele.id)) : [parseInt(areas.filter(ele => ele.name == $("#areas").val())[0].id)];
 
         let type = $("input[name='type']:checked").val();
 
@@ -257,11 +257,7 @@ $(function () {
 
         obj['gender'] = gender == 'All' ? ["male", "female", "others"] : [gender];
 
-        let minAge = $("#minAge").val();
-
-        let maxAge = $("#maxAge").val();
-
-        obj['age'] = { min: minAge, max: maxAge }
+        obj['age'] = { min: parseInt($("#minAge").val()), max: parseInt($("#maxAge").val()) }
 
         console.log('object', obj);
 
@@ -269,7 +265,7 @@ $(function () {
 
         let submitHost = $("#submit-host").val();
 
-         if (submitHost != '') {
+         /* if (submitHost != '') {
 
              $.ajax({
                  url: submitHost,
@@ -282,6 +278,6 @@ $(function () {
                      console.log(res)
                  }
              });
-         } 
+         }  */
     });
 });

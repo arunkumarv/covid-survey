@@ -255,7 +255,7 @@ $(function () {
 
         let gender = $("input[name='gender']:checked").val();
 
-        obj['gender'] = gender == 'All' ? ["Male", "Female", "Others"] : [gender];
+        obj['gender'] = gender == 'All' ? ["male", "female", "others"] : [gender];
 
         let minAge = $("#minAge").val();
 
@@ -267,12 +267,12 @@ $(function () {
 
         $("#json").html(JSON.stringify(obj, null, 4))
 
-        /*  let api = $("#api").val();
+        let submitHost = $("#submit-host").val();
 
-         if (api != '') {
+         if (submitHost != '') {
 
              $.ajax({
-                 url: api,
+                 url: submitHost,
                  type: 'POST',
                  data: JSON.stringify(obj),
                  contentType: 'application/json; charset=utf-8',
@@ -282,6 +282,6 @@ $(function () {
                      console.log(res)
                  }
              });
-         } */
+         } 
     });
 });

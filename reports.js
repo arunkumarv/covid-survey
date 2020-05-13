@@ -51,8 +51,6 @@ function getTaluks(districtId) {
             alert('gettaluk', res);
         }
     });
-
-
 }
 
 function getVillages(districtId, talukId) {
@@ -265,7 +263,7 @@ $(function () {
 
         let submitHost = $("#submit-host").val();
 
-         /* if (submitHost != '') {
+         if (submitHost != '') {
 
              $.ajax({
                  url: submitHost,
@@ -278,6 +276,6 @@ $(function () {
                      console.log(res)
                  }
              });
-         }  */
+         }  
     });
 });

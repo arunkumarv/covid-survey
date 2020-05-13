@@ -2,6 +2,10 @@ let apiHost = "https://covid19.cdacchn.in:8080";
 
 let district = { name: 'Yavatmol', id: 376 };
 
+let taluks = null;
+
+let villages = null;
+
 function getCounts(params) {
 
     $.get(apiHost.concat("/survey/count"), params, function (res) {
@@ -94,6 +98,81 @@ function getPie2(params) {
     });
 }
 
+function resToKeyValue(obj) {
+
+    let arr = [];
+
+    for (let [key, value] of Object.entries(obj)) {
+
+        arr.push({ id: key, name: value });
+    }
+
+    return arr;
+}
+
+function addStringArrayToSelect(selectId, stringArray) {
+
+    let options = '';
+
+    for (let i = 0; i < stringArray.length; i++) {
+
+        options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
+    }
+    $(selectId).prepend("<option value='All'>All</option>");
+
+    $(selectId).append(options);
+}
+
+function getTaluks(districtId) {
+
+    // https://covid19.cdacchn.in:8080/survey/gettaluk?district_id=376
+
+    $.get(apiHost.concat("/survey/gettaluk"), { district_id: districtId }, function (res) {
+
+        console.log(res);
+
+        if (res.status == true) {
+
+            taluks = resToKeyValue(res.data);
+
+            addStringArrayToSelect("#taluks", taluks.map(ele => ele.name));
+
+        } else {
+
+            alert('gettaluk', res);
+        }
+    });
+}
+
+function getVillages(districtId, talukId) {
+    // https://covid19.cdacchn.in:8080/survey/getvillage?district_id=376&taluk=1
+
+    $.get(apiHost.concat("/survey/getvillage"), { district_id: districtId, taluk: talukId }, function (res) {
+
+        if (res.status == true) {
+
+            villages = resToKeyValue(res.data);
+
+            addStringArrayToSelect("#villages", villages.map(ele => ele.name));
+
+        } else {
+
+            alert('getvillage', res);
+        }
+    });
+}
+
+$("#taluks").on("change", function () {
+
+    $("#villages").empty();
+
+    $("#areas").empty();
+
+    if (this.value == 'All') return;
+
+    getVillages(district.id, taluks.filter(ele => ele.name == this.value)[0].id);
+});
+
 $(function () {
 
     $("#district").html(district.name);
@@ -105,6 +184,8 @@ $(function () {
     getPie1 ({ district_id: district.id });
 
     getPie2 ({ district_id: district.id });
+
+    getTaluks ( district.id );
 
 });
 

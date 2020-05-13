@@ -383,7 +383,7 @@ $("#areas").on("change", function () {
 $(function () {
 
     groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
-
+    groupedBarChartCtx.height = 200;
     groupedBarChart = new Chart(groupedBarChartCtx, {
         type: "bar",
         data: groupedBarChartData,

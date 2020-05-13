@@ -107,7 +107,7 @@ function findBounds(latlngs) {
 
     // console.clear();
 
-    console.log(latlngs);
+    // console.log(latlngs);
 
     let delta = 0.1
 

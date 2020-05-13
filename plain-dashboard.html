@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            border: 1px solid #ececec;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    District: <span id="district"></span>
+    Taluk: <select name="taluks" class="form-control" id="taluks"></select>
+    Villages: <select name="villages" class="form-control" id="villages"></select>
+    Areas: <select name="areas" class="form-control" id="areas"></select>
+
+    <div>Houses
+        <div id="Family">No Data</div>
+    </div>
+    <div>Citzen
+        <div id="Citzen">No Data</div>
+    </div>
+    <div>Contact History
+        <div id="Contact-history">No Data</div>
+    </div>
+    <div>Diabetes
+        <div id="Diabetes">No Data</div>
+    </div>
+    <div>Hyper Tension
+        <div id="Hyper-tension">No Data</div>
+    </div>
+    <div>Travel History
+        <div id="Travel-history">No Data</div>
+    </div>
+
+    <div>
+        <canvas id="groupedBarChart" width="400" height="400"></canvas>
+    </div>
+
+    <div id="pie1Container">
+        <canvas id="pie1Chart" width="400" height="400"></canvas>
+    </div>
+
+    <div>
+        <canvas id="pie2Chart" width="400" height="400"></canvas>
+    </div>
+
+
+    <script src="static/jquery-3.2.1.min.js"></script>
+    <script src="static/Chart.min.js"></script>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

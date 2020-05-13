@@ -266,9 +266,9 @@ $(function () {
          if (submitHost != '') {
 
             $.post ( submitHost, obj, function(res){
-                
-                console.log ( res )
-            })
+
+                console.log ( res );
+            });
             /*  $.ajax({
                  url: submitHost,
                  type: 'POST',

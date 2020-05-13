@@ -138,31 +138,31 @@ $('input[type=radio][name=type]').change(function () {
         case 'symptomsBased':
             $("#symptomsSelector").show();
             $("#dateSelector").show();
-            $("#mobile").hide();
-            $("#typeDate").hide();
+            $("#mobileSelector").hide();
+            $("#typeDateSelector").hide();
             break;
 
         case 'userBased':
             $("#symptomsSelector").hide();
             $("#dateSelector").hide();
-            $("#mobile").show();
-            $("#typeDate").hide();
+            $("#mobileSelector").show();
+            $("#typeDateSelector").hide();
             break;
 
         case 'dayBased':
             $("#symptomsSelector").hide();
             $("#dateSelector").hide();
-            $("#mobile").hide();
-            $("#typeDate").show();
+            $("#mobileSelector").hide();
+            $("#typeDateSelector").show();
             break;
     }
 });
 
 $(function () {
 
-    $("#mobile").hide();
+    $("#mobileSelector").hide();
 
-    $("#typeDate").hide();
+    $("#typeDateSelector").hide();
 
     $("#districtName").html(district.name);
 

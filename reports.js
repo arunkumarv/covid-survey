@@ -1,218 +1,287 @@
+let apiHost = "https://covid19.cdacchn.in:8080";
 
-        let taluks = null;
+let district = { name: 'Yamaha', id: 376 };
 
-        let villages = null;
+let taluks = null;
 
-        let areas = null;
+let villages = null;
 
-        function addStringArrayToSelect(selectId, stringArray) {
+let areas = null;
 
-            let options = '';
+function addStringArrayToSelect(selectId, stringArray) {
 
-            for (let i = 0; i < stringArray.length; i++) {
+    let options = '';
 
-                options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
-            }
-            $(selectId).prepend("<option value='All'>All</option>");
+    for (let i = 0; i < stringArray.length; i++) {
 
-            $(selectId).append(options);
-        }
+        options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
+    }
+    $(selectId).prepend("<option value='All'>All</option>");
 
-        function getTaluks(name) {
+    $(selectId).append(options);
+}
 
-            taluks = [
-                { name: 'aaa', id: 123 },
-                { name: 'bbb', id: 234 },
-                { name: 'ccc', id: 345 },
-                { name: 'ddd', id: 456 },
-            ];
+function resToKeyValue(obj) {
+
+    let arr = [];
+
+    for (let [key, value] of Object.entries(obj)) {
+
+        arr.push({ id: key, name: value });
+    }
+
+    return arr;
+}
+
+function getTaluks(districtId) {
+    // https://covid19.cdacchn.in:8080/survey/gettaluk?district_id=376
+
+    $.get(apiHost.concat("/survey/gettaluk"), { district_id: districtId }, function (res) {
+
+        console.log(res);
+
+        if (res.status == true) {
+
+            taluks = resToKeyValue(res.data);
 
             addStringArrayToSelect("#taluks", taluks.map(ele => ele.name));
+
+        } else {
+
+            alert('gettaluk', res);
         }
+    });
 
-        function getVillages(name) {
 
-            villages = [
-                { name: 'eee', id: 123 },
-                { name: 'fff', id: 234 },
-                { name: 'ggg', id: 345 },
-                { name: 'hhh', id: 456 },
-            ];
+}
+
+function getVillages(districtId, talukId) {
+    // https://covid19.cdacchn.in:8080/survey/getvillage?district_id=376&taluk=1
+
+    $.get(apiHost.concat("/survey/getvillage"), { district_id: districtId, taluk: talukId }, function (res) {
+
+        if (res.status == true) {
+
+            villages = resToKeyValue(res.data);
 
             addStringArrayToSelect("#villages", villages.map(ele => ele.name));
+
+        } else {
+
+            alert('getvillage', res);
         }
+    });
+}
 
-        function getAreas(name) {
+function getAreas(districtId, talukId, villageId) {
+    // https://covid19.cdacchn.in:8080/survey/getarea?district_id=376&taluk=1&village=1
+    $.get(apiHost.concat("/survey/getarea"), { district_id: districtId, taluk: talukId, village: villageId }, function (res) {
 
-            areas = [
-                { name: 'iii', id: 123 },
-                { name: 'jjj', id: 234 },
-                { name: 'kkk', id: 345 },
-                { name: 'lll', id: 456 },
-            ];
+        if (res.status == true) {
+
+            areas = resToKeyValue(res.data);
 
             addStringArrayToSelect("#areas", areas.map(ele => ele.name));
+
+        } else {
+
+            alert('getareas', res);
+        }
+    });
+}
+
+$("#taluks").on("change", function () {
+
+    $("#villages").empty();
+
+    $("#areas").empty();
+
+    if (this.value == 'All') return;
+
+    getVillages(district.id, taluks.filter(ele => ele.name == this.value)[0].id);
+});
+
+$("#villages").on("change", function () {
+
+    $("#areas").empty();
+
+    if (this.value == 'All') return;
+
+    getAreas(district.id, taluks.filter(ele => ele.name == $("#taluks").val())[0].id, villages.filter(ele => ele.name == this.value)[0].id);
+});
+
+$('input[type=radio][name=type]').change(function () {
+
+    /* if (this.value == 'symptomsBased') {
+
+        $("#symptomsSelector").show();
+
+        $("#dateSelector").show();
+
+        // hide mobile
+
+        // hide typeDate
+
+    } else {
+
+        $("#symptomsSelector").hide();
+
+        $("#dateSelector").hide();
+    }
+
+    //userBased
+
+    // dayBased */
+
+    switch (this.value) {
+
+        case 'symptomsBased':
+            $("#symptomsSelector").show();
+            $("#dateSelector").show();
+            $("#mobile").hide();
+            $("#typeDate").hide();
+            break;
+
+        case 'userBased':
+            $("#symptomsSelector").hide();
+            $("#dateSelector").hide();
+            $("#mobile").show();
+            $("#typeDate").hide();
+            break;
+
+        case 'dayBased':
+            $("#symptomsSelector").hide();
+            $("#dateSelector").hide();
+            $("#mobile").hide();
+            $("#typeDate").show();
+            break;
+    }
+});
+
+$(function () {
+
+    $("#mobile").hide();
+
+    $("#typeDate").hide();
+
+    $("#districtName").html(district.name);
+
+    getTaluks(district.id);
+
+    $("#show-details-form").on('submit', function (e) {
+
+        e.preventDefault();
+
+        let obj = {};
+
+        obj['district'] = district.id;
+
+        console.log($("#taluks").val())
+
+        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => ele.id) : [taluks.filter(ele => ele.name == $("#taluks").val())[0].id];
+
+        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => ele.id) : [villages.filter(ele => ele.name == $("#villages").val())[0].id];
+
+        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => ele.id) : [areas.filter(ele => ele.name == $("#areas").val())[0].id];
+
+        let type = $("input[name='type']:checked").val();
+
+        obj['type'] = type;
+
+        switch (type) {
+
+            case "symptomsBased":
+
+                let symptoms = [];
+
+                $('[name="symptoms"]:checkbox:checked').each(function (i) { symptoms[i] = $(this).val(); });
+
+                obj['symptoms'] = symptoms;
+
+                break;
+
+            case 'userBased':
+
+                let mobile = $('#mobile').val();
+
+                obj['mobile'] = mobile
+
+                break;
+
+            case 'dayBased':
+
+                let typeDate = $('#typeDate').val();
+
+                obj['date'] = typeDate;
         }
 
-        $("#taluks").on("change", function () {
+        if (obj['type'] == 'symptomsBased') {
 
-            $("#villages").empty();
+            let dateType = $("input[name='dateType']:checked").val();
 
-            $("#areas").empty();
+            obj['dateType'] = dateType;
 
-            if (this.value == 'All') return;
+            switch (dateType) {
 
-            getVillages(this.value);
-        });
+                case 'today':
 
-        $("#villages").on("change", function () {
+                    let today = new Date();
 
-            $("#areas").empty();
+                    obj['time'] = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
 
-            if (this.value == 'All') return;
+                    break;
 
-            getAreas(this.value);
-        });
+                case 'range':
 
-        $('input[type=radio][name=type]').change(function () {
+                    let dateMin = $('#dateMin').val();
 
-            if (this.value == 'symptomsBased') {
+                    let dateMax = $('#dateMax').val();
 
-                $("#symptomsSelector").show();
+                    obj['time'] = { min: dateMin, max: dateMax };
 
-                $("#dateSelector").show();
+                    break;
 
-            } else {
+                case 'past':
 
-                $("#symptomsSelector").hide();
+                    let past = $("#daysPast option:selected").text();
 
-                $("#dateSelector").hide();
+                    obj['time'] = past;
             }
-        });
+        }
 
-        // function getVillages
-        $(function () {
+        let check = $("input[name='check']:checked").val();
 
-            let district = { name: 'Yamaha', id: 1234 };
+        obj['check'] = check;
 
-            $("#districtName").html(district.name);
+        let gender = $("input[name='gender']:checked").val();
 
-            getTaluks(district.name);
+        obj['gender'] = gender == 'All' ? ["Male", "Female", "Others"] : [gender];
 
-            $("#show-details-form").on('submit', function (e) {
+        let minAge = $("#minAge").val();
 
-                e.preventDefault();
+        let maxAge = $("#maxAge").val();
 
-                let obj = {};
+        obj['age'] = { min: minAge, max: maxAge }
 
-                obj['district'] = district.id;
+        console.log('object', obj);
 
-                console.log($("#taluks").val())
+        $("#json").html(JSON.stringify(obj, null, 4))
 
-                if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => ele.id) : [taluks.filter(ele => ele.name == $("#taluks").val())[0].id];
+        /*  let api = $("#api").val();
 
-                if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => ele.id) : [villages.filter(ele => ele.name == $("#villages").val())[0].id];
+         if (api != '') {
 
-                if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => ele.id) : [areas.filter(ele => ele.name == $("#areas").val())[0].id];
-
-                let type = $("input[name='type']:checked").val();
-
-                obj['type'] = type;
-
-                switch (type) {
-
-                    case "symptomsBased":
-
-                        let symptoms = [];
-
-                        $('[name="symptoms"]:checkbox:checked').each(function (i) { symptoms[i] = $(this).val(); });
-
-                        obj['symptoms'] = symptoms;
-
-                        break;
-
-                    case 'userBased':
-
-                        let mobile = $('#mobile').val();
-
-                        obj['mobile'] = mobile
-
-                        break;
-
-                    case 'dayBased':
-
-                        let typeDate = $('#typeDate').val();
-
-                        obj['date'] = typeDate;
-                }
-
-                if (obj['type'] == 'symptomsBased') {
-
-                    let dateType = $("input[name='dateType']:checked").val();
-
-                    obj['dateType'] = dateType;
-
-                    switch (dateType) {
-
-                        case 'today':
-
-                            let today = new Date();
-
-                            obj['time'] = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
-
-                            break;
-
-                        case 'range':
-
-                            let dateMin = $('#dateMin').val();
-
-                            let dateMax = $('#dateMax').val();
-
-                            obj['time'] = { min: dateMin, max: dateMax };
-
-                            break;
-
-                        case 'past':
-
-                            let past = $("#daysPast option:selected").text();
-
-                            obj['time'] = past;
-                    }
-                }
-
-                let check = $("input[name='check']:checked").val();
-
-                obj['check'] = check;
-
-                let gender = $("input[name='gender']:checked").val();
-
-                obj['gender'] = gender == 'All' ? ["Male", "Female", "Others"]: [gender];
-
-                let minAge = $("#minAge").val();
-
-                let maxAge = $("#maxAge").val();
-
-                obj['age'] = { min: minAge, max: maxAge }
-
-                console.log('object', obj);
-
-                $("#json").html(JSON.stringify(obj, null, 4))
-
-                let api = $("#api").val();
-
-                if (api != '') {
-
-                    $.ajax({
-                        url: api,
-                        type: 'POST',
-                        data: JSON.stringify(obj),
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        async: false,
-                        success: function (res) {
-                            console.log(res)
-                        }
-                    });
-                }
-            });
-        });
+             $.ajax({
+                 url: api,
+                 type: 'POST',
+                 data: JSON.stringify(obj),
+                 contentType: 'application/json; charset=utf-8',
+                 dataType: 'json',
+                 async: false,
+                 success: function (res) {
+                     console.log(res)
+                 }
+             });
+         } */
+    });
+});

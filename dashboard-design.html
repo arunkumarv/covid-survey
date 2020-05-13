@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="static/jquery-3.2.1.min.js"></script>
+    <script src="static/popper.min.js"></script>
+    <script src="static/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="row">
+  <div class="col-md-12">
+  <div class="card">
+            <div class="card-body">
+		 <div class="form-row">
+    <div class="form-group col-md-4">		
+		<h2><label>	District </label> <span id="district"></span>  </h2></div> </div>  <div class="form-row">
+   <div class="form-group col-md-4">		
+		<label>  Taluk</label> <select name="taluks" class="form-control" id="taluks"></select> </div>
+    <div class="form-group col-md-4">		
+		<label> Villages </label><select name="villages" class="form-control" id="villages"></select>  </div>
+     <div class="form-group col-md-4">		
+		<label> Areas </label> <select name="areas" class="form-control" id="areas"></select>  </div> </div>
+
+ </div> </div>
+ </div>  </div>
+
+  <div class="row mt-3">
+
+    <div class="col-md-2 text-center">  <div class="card bg-info text-white">
+            <div class="card-body"> Houses
+        <div id="Family">No Data</div></div></div>
+    </div>
+    <div class="col-md-2 text-center">   <div class="card bg-light text-black">
+            <div class="card-body">Citzen
+        <div id="Citzen">No Data</div></div></div>
+    </div>
+    <div class="col-md-2 text-center">  <div class="card bg-warning text-white">
+            <div class="card-body"> Contact History
+        <div id="Contact-history">No Data</div></div></div>
+    </div>
+    <div class="col-md-2 text-center">   <div class="card bg-danger text-white">
+            <div class="card-body">Diabetes
+        <div id="Diabetes">No Data</div></div></div>
+    </div>
+    <div class="col-md-2 text-center">  <div class="card bg-success text-white">
+            <div class="card-body"> Hyper Tension
+        <div id="Hyper-tension">No Data</div></div></div>
+    </div>
+    <div class="col-md-2 text-center">  <div class="card bg-primary text-white">
+            <div class="card-body"> Travel History
+        <div id="Travel-history">No Data</div></div></div>
+    </div>
+</div>
+
+
+
+  <div class="row mt-3">
+   <div class="col-md-12">   <div class="card">
+            <div class="card-body">
+        <canvas id="groupedBarChart" width="400" height="400"></canvas>    </div>   </div>
+    </div>
+
+     
+</div>
+    <div class="row mt-3">
+   <div class="col-md-6">   <div class="card">
+            <div class="card-body">
+        <canvas id="pie2Chart" width="400" height="400"></canvas>    </div>   </div>
+    </div>    <div class="col-md-6">   <div class="card">
+            <div class="card-body">
+        <canvas id="pie1Chart" width="400" height="400"></canvas>
+    </div>    </div>   </div> </div>
+
+</div>
+    <script src="static/jquery-3.2.1.min.js"></script>
+    <script src="static/Chart.min.js"></script>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

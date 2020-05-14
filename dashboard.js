@@ -516,6 +516,12 @@ function resetAll() {
 
     getPie2({ district_id: district.id });
 
+    $("#taluks").empty();
+
+    $("#villages").empty();
+
+    $("#areas").empty();
+
     getTaluks(district.id);
 }
 

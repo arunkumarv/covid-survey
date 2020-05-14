@@ -57,7 +57,7 @@ function downloadReport() {
 
     doc.autoTable({ startY: i, html: '#report' });
 
-    doc.save('download.pdf');
+    doc.save('report.pdf');
 }
 
 function addStringArrayToSelect(selectId, stringArray) {
@@ -222,14 +222,19 @@ function exportTableToCSV($table, filename) {
 
         rowDelim = '"\r\n"',
         
-        csv = '"District","'+district.name+'",';
-        csv += '"Taluk","' + $("#taluks").val() + '",';
-        csv += '"Village","' + $("#villages").val() + '"\r\n';
-        csv += '"Area","' + $("#areas").val() + '",';
-        csv += '"Gender","' + $("input[name='gender']:checked").val() + '",';
-        csv += '"Report Type","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
+        csv = '"DISTRICT","'+district.name+'"\r\n';
 
-        
+        if ( $("#taluks").val() != null ) csv += '"TALUK","' + $("#taluks").val() + '"\r\n';
+
+        if ( $("#villages").val() != null ) csv += '"VILLAGE","' + $("#villages").val() + '"\r\n';
+
+        if ( $("#areas").val() != null ) csv += '"AREA","' + $("#areas").val() + '"\r\n';
+
+        csv += '"GENDER","' + $("input[name='gender']:checked").val() + '"\r\n';
+
+        csv += '"REPORT TYPE","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
+
+        csv += '\r\n';
 
         // Grab text from table into CSV formatted string
         csv += '"' + $rows.map(function (i, row) {

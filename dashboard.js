@@ -196,9 +196,9 @@ function printError(endpoint, params, res) {
 
 function getMap(params) {
 
-    console.log ('mapParams', params );
-    
     $.get(apiHost.concat("/survey/getmap"), params, function (res) {
+
+        console.log ('mapParams:', $.param(params) );
 
         console.log('map', res);
 
@@ -230,6 +230,8 @@ function getBar(params) {
     console.log("---------")
 
     $.get(apiHost.concat("/survey/bar"), params, function (res) {
+
+        console.log ('barParams:', $.param(params) );
 
         if (res.status == true) {
 
@@ -270,6 +272,8 @@ function getPie1(params) {
 
     $.get(apiHost.concat("/survey/pie1"), params, function (res) {
 
+        console.log ('pie1Params:', $.param(params) );
+
         pie1Chart.data.labels = [];
 
         pie1Chart.data.datasets[0].data = []
@@ -294,6 +298,8 @@ function getPie1(params) {
 function getPie2(params) {
 
     $.get(apiHost.concat("/survey/pie2"), params, function (res) {
+
+        console.log ('pie2Params:', $.param(params) );
 
         // console.log('pie2', JSON.stringify(res))
 
@@ -455,7 +461,7 @@ $("#villages").on("change", function () {
 
     getAreas(district.id, taluks.filter(ele => ele.name == $("#taluks").val())[0].id, villages.filter(ele => ele.name == this.value)[0].id);
 
-    console.log($("#taluks").val(), $("#villages").val())
+    // console.log($("#taluks").val(), $("#villages").val())
 
     let params = {
 

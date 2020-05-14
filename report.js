@@ -21,17 +21,23 @@ function downloadReport() {
     doc.text(20, i, "District: " + district.name);
     i = i + k
 
-    doc.setFontSize(fSize);
-    doc.text(20, i, "Taluk: " + $("#taluks").val());
-    i = i + k
+    if ($("#taluks").val() != null) {
+        doc.setFontSize(fSize);
+        doc.text(20, i, "Taluk: " + $("#taluks").val());
+        i = i + k
+    }
 
-    doc.setFontSize(fSize);
-    doc.text(20, i, "Village: " + $("#villages").val());
-    i = i + k
+    if ($("#villages").val() != null) {
+        doc.setFontSize(fSize);
+        doc.text(20, i, "Village: " + $("#villages").val());
+        i = i + k
+    }
 
-    doc.setFontSize(fSize);
-    doc.text(20, i, "Area: " + $("#areas").val());
-    i = i + k
+    if ($("#areas").val() != null) {
+        doc.setFontSize(fSize);
+        doc.text(20, i, "Area: " + $("#areas").val());
+        i = i + k
+    }
 
     doc.setFontSize(fSize);
     doc.text(20, i, "Gender: " + $("input[name='gender']:checked").val());
@@ -310,7 +316,7 @@ $(function () {
         // let submitHost = $("#submit-host").val();
         let submitHost = $("input[name='submitHost']:checked").val();
 
-        console.log ( submitHost )
+        console.log(submitHost)
 
         if (submitHost != '') {
 
@@ -322,7 +328,7 @@ $(function () {
 
                 var table = $('#report');
 
-                table.append ("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
+                table.append("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
 
                 for (var i = 0; i < res.length; i++) {
 

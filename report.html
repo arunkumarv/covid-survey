@@ -22,18 +22,18 @@
 
     <div class="container">
         <h2 class="pt-3 pb-3">Generate Reports</h2>
-        <div class="card">
-            <div class="card-body">
+        <!-- <div class="card">
+            <div class="card-body"> -->
                 <!-- http://10.184.48.98:8000/api/report -->
                 <!-- <input 
                     type="text" class="form-control" name="submit-host" id="submit-host" 
                     value="https://covid19.cdacchn.in:8080/api/report" placeholder="API full link"> -->
-                <input type="radio" name="submitHost" value="https://covid19.cdacchn.in:8080/api/report" checked>
+               <!--  <input type="radio" name="submitHost" value="https://covid19.cdacchn.in:8080/api/report" checked>
                 https://covid19.cdacchn.in:8080/api/report
                 <input type="radio" name="submitHost" value="http://10.184.48.98:8000/api/report">
                 http://10.184.48.98:8000/api/report
             </div>
-        </div>
+        </div> -->
         <div class="card  bg-light">
             <div class="card-body">
                 <form id="show-details-form" name="show-details-form">
@@ -217,22 +217,25 @@
             </div>
         </div>
 
-        <pre id="json" class="prettyprint"></pre>
-        <button class="btn btn-warning" onclick="downloadReport()">Download pdf</button>
-        <a href="#" class="btn btn-outline-info export">Download CSV</a>
-        <div id="dvData">
-            
-            <table class="table" id="report">
-                <tr>
-                    <td>NAME</td>
-                    <td>PHONE</td>
-                    <td>GENDER</td>
-                    <td>AGE</td>
-                    <td>SYMPTOMS</td>
-                </tr>
-            </table>
-
+        <!-- <pre id="json" class="prettyprint"></pre> -->
+        <div class="mt-2 mb-2" id="response-element">
+            <button class="btn btn-warning" onclick="downloadReport()">Download pdf</button>
+            <a href="#" class="btn btn-outline-info export">Download CSV</a>
+            <div id="dvData">
+                
+                <table class="table" id="report">
+                    <tr>
+                        <td>NAME</td>
+                        <td>PHONE</td>
+                        <td>GENDER</td>
+                        <td>AGE</td>
+                        <td>SYMPTOMS</td>
+                    </tr>
+                </table>
+    
+            </div>
         </div>
+        
     </div>
 
 

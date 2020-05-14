@@ -221,39 +221,39 @@ function exportTableToCSV($table, filename) {
         colDelim = '","',
 
         rowDelim = '"\r\n"',
-        
-        csv = '"DISTRICT","'+district.name+'"\r\n';
 
-        if ( $("#taluks").val() != null ) csv += '"TALUK","' + $("#taluks").val() + '"\r\n';
+        csv = '"DISTRICT","' + district.name + '"\r\n';
 
-        if ( $("#villages").val() != null ) csv += '"VILLAGE","' + $("#villages").val() + '"\r\n';
+    if ($("#taluks").val() != null) csv += '"TALUK","' + $("#taluks").val() + '"\r\n';
 
-        if ( $("#areas").val() != null ) csv += '"AREA","' + $("#areas").val() + '"\r\n';
+    if ($("#villages").val() != null) csv += '"VILLAGE","' + $("#villages").val() + '"\r\n';
 
-        csv += '"GENDER","' + $("input[name='gender']:checked").val() + '"\r\n';
+    if ($("#areas").val() != null) csv += '"AREA","' + $("#areas").val() + '"\r\n';
 
-        csv += '"REPORT TYPE","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
+    csv += '"GENDER","' + $("input[name='gender']:checked").val() + '"\r\n';
 
-        csv += '\r\n';
+    csv += '"REPORT TYPE","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
 
-        // Grab text from table into CSV formatted string
-        csv += '"' + $rows.map(function (i, row) {
+    csv += '\r\n';
 
-            var $row = $(row), $cols = $row.find('td');
+    // Grab text from table into CSV formatted string
+    csv += '"' + $rows.map(function (i, row) {
 
-            return $cols.map(function (j, col) {
+        var $row = $(row), $cols = $row.find('td');
 
-                var $col = $(col), text = $col.text();
+        return $cols.map(function (j, col) {
 
-                return text.replace(/"/g, '""'); // escape double quotes
+            var $col = $(col), text = $col.text();
 
-            }).get().join(tmpColDelim);
+            return text.replace(/"/g, '""'); // escape double quotes
 
-        }).get().join(tmpRowDelim)
-            .split(tmpRowDelim).join(rowDelim)
-            .split(tmpColDelim).join(colDelim) + '"';
+        }).get().join(tmpColDelim);
 
-        console.log (csv)
+    }).get().join(tmpRowDelim)
+        .split(tmpRowDelim).join(rowDelim)
+        .split(tmpColDelim).join(colDelim) + '"';
+
+    console.log(csv)
 
     // Deliberate 'false', see comment below
     if (false && window.navigator.msSaveBlob) {
@@ -294,24 +294,28 @@ function exportTableToCSV($table, filename) {
     }
 }
 
- $(".export").on('click', function(event) {
+$(".export").on('click', function (event) {
 
     var args = [$('#dvData>table'), 'report.csv'];
 
     exportTableToCSV.apply(this, args);
-  });
+});
 
-$(function () {
+$("#response-element").hide();
 
     $("#mobileSelector").hide();
 
     $("#typeDateSelector").hide();
+
+$(function () {
 
     $("#districtName").html(district.name);
 
     getTaluks(district.id);
 
     $("#show-details-form").on('submit', function (e) {
+
+        $("#response-element").show();
 
         e.preventDefault();
 
@@ -406,8 +410,8 @@ $(function () {
 
         $("#json").html(JSON.stringify(obj, null, 4))
 
-        // let submitHost = $("#submit-host").val();
-        let submitHost = $("input[name='submitHost']:checked").val();
+        let submitHost = "https://covid19.cdacchn.in:8080/api/report"
+        // let submitHost = $("input[name='submitHost']:checked").val();
 
         console.log(submitHost)
 
@@ -436,27 +440,27 @@ $(function () {
                         // console.log(`${key}: ${value}`); 
                         let cell;
 
-                        if ( key == 'dataset' ){ 
+                        if (key == 'dataset') {
 
-                            console.log ( value )
+                            console.log(value)
 
                             let str = '';
 
-                            console.log ( Object.entries(value))
+                            console.log(Object.entries(value))
 
-                            for ( let [k, v] of Object.entries(value)) {
+                            for (let [k, v] of Object.entries(value)) {
 
-                                str += k +": ";
+                                str += k + ": ";
 
-                                Object.keys(v).forEach(e => str+= e + ", " );
+                                Object.keys(v).forEach(e => str += e + ", ");
 
                                 str += '<br>'
                             }
-                            
-                            cell = $('<td>' + str + '</td>') 
-                        
+
+                            cell = $('<td>' + str + '</td>')
+
                         } else {
-                            
+
                             cell = $('<td>' + value + '</td>')
                         }
 

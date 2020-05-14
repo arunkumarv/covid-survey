@@ -208,7 +208,7 @@ function getMap(params) {
 
                 // console.log(value)
 
-                markers.push(L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup("" + value[2]));
+                markers.push(L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup( value[2] + ": " + value[3] ));
 
                 // markers.push(L.circle([parseFloat(value[0]), parseFloat(value[1])], { color: 'red', fillColor: '#f03', fillOpacity: 0.5, radius: value[2] * 10 }).addTo(map).bindPopup(""+value[2]));
             })

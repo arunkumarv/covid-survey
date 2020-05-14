@@ -434,8 +434,31 @@ $(function () {
                     for (let [key, value] of Object.entries(res[i])) {
 
                         // console.log(`${key}: ${value}`); 
+                        let cell;
 
-                        cell = key == 'dataset' ? $('<td>' + Object.keys(value) + '</td>') : $('<td>' + value + '</td>')
+                        if ( key == 'dataset' ){ 
+
+                            console.log ( value )
+
+                            let str = '';
+
+                            console.log ( Object.entries(value))
+
+                            for ( let [k, v] of Object.entries(value)) {
+
+                                str += k +": ";
+
+                                Object.keys(v).forEach(e => str+= e + ", " );
+
+                                console.log ( str )
+                            }
+                            
+                            cell = $('<td>' + str + '</td>') 
+                        
+                        } else {
+                            
+                            cell = $('<td>' + value + '</td>')
+                        }
 
                         row.append(cell);
                     }

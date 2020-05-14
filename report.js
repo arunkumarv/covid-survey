@@ -315,7 +315,11 @@ $(function () {
 
                 console.log(res);
 
+                $("#report tr").remove();
+
                 var table = $('#report');
+
+                table.append ("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
 
                 for (var i = 0; i < res.length; i++) {
 

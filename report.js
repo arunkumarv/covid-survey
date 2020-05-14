@@ -269,9 +269,9 @@ $(function () {
 
                 case 'today':
 
-                    let today = new Date();
+                    // let today = new Date();
 
-                    obj['time'] = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
+                    obj['time'] = "today";// today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
 
                     break;
 

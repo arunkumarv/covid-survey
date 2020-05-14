@@ -9,21 +9,47 @@ let villages = null;
 let areas = null;
 
 function downloadReport() {
-
-
+    let i = 30;
+    let k = 6
+    let fSize = 10;
     var doc = new jsPDF();
 
-    doc.text('Report', 14, 20)
+    doc.setFontSize(22);
+    doc.text(20, 20, "Report");
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "District: " + district.name);
+    i = i + k
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "Taluk: " + $("#taluks").val());
+    i = i + k
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "Village: " + $("#villages").val());
+    i = i + k
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "Area: " + $("#areas").val());
+    i = i + k
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "Gender: " + $("input[name='gender']:checked").val());
+    i = i + k
+
+    doc.setFontSize(fSize);
+    doc.text(20, i, "Report Type: " + $('input[type=radio][name=type]').val());
+    i = i + k
 
     doc.setProperties({
         title: 'Report',
-        subject: 'Covid 19',		
+        subject: 'Covid 19',
         author: 'Arunkumar V',
         keywords: 'covid',
         creator: 'CDAC'
     });
 
-    doc.autoTable({ startY:25,  html: '#report' });
+    doc.autoTable({ startY: i, html: '#report' });
 
     doc.save('download.pdf');
 }
@@ -196,7 +222,7 @@ $(function () {
 
         console.log($("#taluks").val())
 
-        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt (taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
+        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
 
         if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
 
@@ -283,11 +309,11 @@ $(function () {
 
         let submitHost = $("#submit-host").val();
 
-         if (submitHost != '') {
+        if (submitHost != '') {
 
-            $.post ( submitHost, JSON.stringify(obj), function(res){
+            $.post(submitHost, JSON.stringify(obj), function (res) {
 
-                console.log ( res );
+                console.log(res);
 
                 var table = $('#report');
 
@@ -299,16 +325,16 @@ $(function () {
 
                     // console.log ( res[i])
 
-                    for (let [key, value] of Object.entries(res[i])) { 
-                        
+                    for (let [key, value] of Object.entries(res[i])) {
+
                         // console.log(`${key}: ${value}`); 
 
-                        cell = key == 'dataset' ? $('<td>' + Object.keys ( value ) + '</td>') : $('<td>' + value + '</td>')
+                        cell = key == 'dataset' ? $('<td>' + Object.keys(value) + '</td>') : $('<td>' + value + '</td>')
 
                         row.append(cell);
                     }
 
-                   
+
                 }
             });
             /*  $.ajax({
@@ -322,6 +348,6 @@ $(function () {
                      console.log(res)
                  }
              }); */
-         }  
+        }
     });
 });

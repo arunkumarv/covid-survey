@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports</title>
     <link rel="stylesheet" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/style.css">
+
     <script src="static/jquery-3.2.1.min.js"></script>
     <script src="static/popper.min.js"></script>
     <script src="static/bootstrap.min.js"></script>
@@ -17,39 +19,6 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Import Survey</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Reports</a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        District Admin
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
     <div class="container">
         <h2 class="pt-3 pb-3">Generate Reports</h2>
@@ -59,8 +28,10 @@
                 <!-- <input 
                     type="text" class="form-control" name="submit-host" id="submit-host" 
                     value="https://covid19.cdacchn.in:8080/api/report" placeholder="API full link"> -->
-                <input type="radio" name="submitHost" value="https://covid19.cdacchn.in:8080/api/report" checked> https://covid19.cdacchn.in:8080/api/report
-                <input type="radio" name="submitHost" value="http://10.184.48.98:8000/api/report"> http://10.184.48.98:8000/api/report
+                <input type="radio" name="submitHost" value="https://covid19.cdacchn.in:8080/api/report" checked>
+                https://covid19.cdacchn.in:8080/api/report
+                <input type="radio" name="submitHost" value="http://10.184.48.98:8000/api/report">
+                http://10.184.48.98:8000/api/report
             </div>
         </div>
         <div class="card  bg-light">
@@ -113,7 +84,7 @@
                             </div>
                             <div class="form-check form-check-inline">
 
-                                <input type="radio" name="type" class="form-check-input" value="dayBased" >
+                                <input type="radio" name="type" class="form-check-input" value="dayBased">
                                 <label class="form-check-label"> Day wise </label>
                             </div>
 
@@ -169,13 +140,10 @@
                             <input type="number" class="form-control" name="mobile" id="mobile"
                                 placeholder="Mobilenumber">
                         </div>
-                        <div class="col-sm-3" id="typeDateSelector"> <input type="date" name="typeDate" id="typeDate"
-                                class="form-control" value=2020-05-11></div>
+                        <div class="col-sm-3" id="typeDateSelector"> 
+                            <input type="date" name="typeDate" id="typeDate" class="form-control" value=2020-05-11></div>
 
                     </div>
-
-
-
 
                     <div class="form-group row" id="dateSelector">
                         <!-- This id dateSelector should be present -->
@@ -245,20 +213,20 @@
 
         <pre id="json" class="prettyprint"></pre>
         <button class="btn btn-warning" onclick="downloadReport()">Download pdf</button>
-<div id="report-container">
+        <a href="#" class="btn btn-outline-info export">Download CSV</a>
+        <div id="dvData">
+            
+            <table class="table" id="report">
+                <tr>
+                    <td>Name</td>
+                    <td>Phone</td>
+                    <td>Gender</td>
+                    <td>Age</td>
+                    <td>Symptoms</td>
+                </tr>
+            </table>
 
-
-        <table class="table" id="report">
-            <tr>
-                <td>Name</td>
-                <td>Phone</td>
-                <td>Gender</td>
-                <td>Age</td>
-                <td>Symptoms</td>
-            </tr>
-        </table>
-
-    </div>
+        </div>
     </div>
 
 

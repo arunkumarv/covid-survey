@@ -9,7 +9,10 @@
     <script src="static/jquery-3.2.1.min.js"></script>
     <script src="static/popper.min.js"></script>
     <script src="static/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="static/run_prettify.js"></script>
+    <script src="static/jspdf.min.js"></script>
+    <script src="static/html2canvas.min.js"></script>
+    <script src="static/jspdf.plugin.autotable.js"></script>
 
 </head>
 
@@ -51,8 +54,10 @@
     <div class="container">
         <h2 class="pt-3 pb-3">Generate Reports</h2>
         <div class="card">
-            <div class="card-body"><!-- http://10.184.48.98:8000/api/report -->
-                <input type="text" class="form-control" name="submit-host" value="https://covid19.cdacchn.in:8080/api/report" id="submit-host" placeholder="API full link">
+            <div class="card-body">
+                <!-- http://10.184.48.98:8000/api/report -->
+                <input type="text" class="form-control" name="submit-host"
+                    value="https://covid19.cdacchn.in:8080/api/report" id="submit-host" placeholder="API full link">
             </div>
         </div>
         <div class="card  bg-light">
@@ -105,8 +110,8 @@
                             </div>
                             <div class="form-check form-check-inline">
 
-                                <input type="radio" name="type" class="form-check-input" value="dayBased"> <label
-                                    class="form-check-label"> Day wise </label>
+                                <input type="radio" name="type" class="form-check-input" value="dayBased" >
+                                <label class="form-check-label"> Day wise </label>
                             </div>
 
                         </div>
@@ -158,10 +163,11 @@
 
                         </div>
                         <div class="col-sm-3" id="mobileSelector">
-                            <input type="number" class="form-control" name="mobile" id="mobile" placeholder="Mobilenumber">
+                            <input type="number" class="form-control" name="mobile" id="mobile"
+                                placeholder="Mobilenumber">
                         </div>
-                        <div class="col-sm-3" id="typeDateSelector"> <input type="date" name="typeDate" id="typeDate" class="form-control"
-                                value=2020-01-01></div>
+                        <div class="col-sm-3" id="typeDateSelector"> <input type="date" name="typeDate" id="typeDate"
+                                class="form-control" value=2020-05-11></div>
 
                     </div>
 
@@ -235,6 +241,21 @@
         </div>
 
         <pre id="json" class="prettyprint"></pre>
+        <button class="btn btn-warning" onclick="downloadReport()">Download</button>
+<div id="report-container">
+
+
+        <table class="table" id="report">
+            <tr>
+                <td>Name</td>
+                <td>Phone</td>
+                <td>Gender</td>
+                <td>Age</td>
+                <td>Dataset</td>
+            </tr>
+        </table>
+
+    </div>
     </div>
 
 

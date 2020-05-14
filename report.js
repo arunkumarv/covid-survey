@@ -8,6 +8,26 @@ let villages = null;
 
 let areas = null;
 
+function downloadReport() {
+
+
+    var doc = new jsPDF();
+
+    doc.text('Report', 14, 20)
+
+    doc.setProperties({
+        title: 'Report',
+        subject: 'Covid 19',		
+        author: 'Arunkumar V',
+        keywords: 'covid',
+        creator: 'CDAC'
+    });
+
+    doc.autoTable({ startY:25,  html: '#report' });
+
+    doc.save('download.pdf');
+}
+
 function addStringArrayToSelect(selectId, stringArray) {
 
     let options = '';
@@ -268,6 +288,28 @@ $(function () {
             $.post ( submitHost, JSON.stringify(obj), function(res){
 
                 console.log ( res );
+
+                var table = $('#report');
+
+                for (var i = 0; i < res.length; i++) {
+
+                    row = $('<tr />');
+
+                    table.append(row);
+
+                    // console.log ( res[i])
+
+                    for (let [key, value] of Object.entries(res[i])) { 
+                        
+                        // console.log(`${key}: ${value}`); 
+
+                        cell = key == 'dataset' ? $('<td>' + Object.keys ( value ) + '</td>') : $('<td>' + value + '</td>')
+
+                        row.append(cell);
+                    }
+
+                   
+                }
             });
             /*  $.ajax({
                  url: submitHost,

@@ -194,15 +194,20 @@ function printError(endpoint, params, res) {
     console.log('output', res)
 }
 
+function getLink (endpoint, params ){
+
+    return apiHost.concat ( endpoint ,"?" , $.param(params) );
+}
+
 function getMap(params) {
 
     $.get(apiHost.concat("/survey/getmap"), params, function (res) {
 
-        console.log ('mapParams:', $.param(params) );
-
-        console.log('map', res);
+        console.log ( getLink ("/survey/getmap", params) );
 
         if (res.status == true) {
+
+            console.log('map', res);
 
             clearMarkers()
 
@@ -221,6 +226,9 @@ function getMap(params) {
 
                 map.fitBounds(bounds);
             }
+        } else {
+
+            printError ( "/survey/bar", params, res );
         }
     });
 }
@@ -231,7 +239,7 @@ function getBar(params) {
 
     $.get(apiHost.concat("/survey/bar"), params, function (res) {
 
-        console.log ('barParams:', $.param(params) );
+        console.log ( getLink ("/survey/bar", params) );
 
         if (res.status == true) {
 
@@ -272,7 +280,7 @@ function getPie1(params) {
 
     $.get(apiHost.concat("/survey/pie1"), params, function (res) {
 
-        console.log ('pie1Params:', $.param(params) );
+        console.log ( getLink ("/survey/pie1", params) );
 
         pie1Chart.data.labels = [];
 
@@ -299,8 +307,7 @@ function getPie2(params) {
 
     $.get(apiHost.concat("/survey/pie2"), params, function (res) {
 
-        console.log ('pie2Params:', $.param(params) );
-
+        console.log ( getLink ("/survey/pie2", params) );
         // console.log('pie2', JSON.stringify(res))
 
         pie2Chart.data.labels = [];

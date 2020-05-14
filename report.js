@@ -38,7 +38,7 @@ function downloadReport() {
     i = i + k
 
     doc.setFontSize(fSize);
-    doc.text(20, i, "Report Type: " + $('input[type=radio][name=type]').val());
+    doc.text(20, i, "Report Type: " + $('input[type=radio][name=type]:checked').val());
     i = i + k
 
     doc.setProperties({

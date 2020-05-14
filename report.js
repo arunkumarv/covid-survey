@@ -219,13 +219,25 @@ function exportTableToCSV($table, filename) {
 
         // actual delimiter characters for CSV format
         colDelim = '","',
+
         rowDelim = '"\r\n"',
+        
+        csv = '"District","'+district.name+'",';
+        csv += '"Taluk","' + $("#taluks").val() + '",';
+        csv += '"Village","' + $("#villages").val() + '"\r\n';
+        csv += '"Area","' + $("#areas").val() + '",';
+        csv += '"Gender","' + $("input[name='gender']:checked").val() + '",';
+        csv += '"Report Type","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
+
+        
 
         // Grab text from table into CSV formatted string
-        csv = '"' + $rows.map(function (i, row) {
+        csv += '"' + $rows.map(function (i, row) {
+
             var $row = $(row), $cols = $row.find('td');
 
             return $cols.map(function (j, col) {
+
                 var $col = $(col), text = $col.text();
 
                 return text.replace(/"/g, '""'); // escape double quotes
@@ -235,6 +247,8 @@ function exportTableToCSV($table, filename) {
         }).get().join(tmpRowDelim)
             .split(tmpRowDelim).join(rowDelim)
             .split(tmpColDelim).join(colDelim) + '"';
+
+        console.log (csv)
 
     // Deliberate 'false', see comment below
     if (false && window.navigator.msSaveBlob) {
@@ -277,7 +291,7 @@ function exportTableToCSV($table, filename) {
 
  $(".export").on('click', function(event) {
 
-    var args = [$('#dvData>table'), 'export.csv'];
+    var args = [$('#dvData>table'), 'report.csv'];
 
     exportTableToCSV.apply(this, args);
   });

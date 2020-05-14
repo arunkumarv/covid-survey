@@ -198,7 +198,7 @@ function getMap(params) {
 
     $.get(apiHost.concat("/survey/getmap"), params, function (res) {
 
-        console.log('map', res );
+        console.log('map', res);
 
         if (res.status == true) {
 
@@ -208,7 +208,7 @@ function getMap(params) {
 
                 // console.log(value)
 
-                markers.push ( L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup(""+value[2]));
+                markers.push(L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup("" + value[2]));
 
                 // markers.push(L.circle([parseFloat(value[0]), parseFloat(value[1])], { color: 'red', fillColor: '#f03', fillOpacity: 0.5, radius: value[2] * 10 }).addTo(map).bindPopup(""+value[2]));
             })
@@ -337,7 +337,7 @@ function addStringArrayToSelect(selectId, stringArray) {
 
         options += '<option value="' + stringArray[i] + '">' + stringArray[i] + '</option>';
     }
-    $(selectId).prepend("<option value=''>None</option>");
+    $(selectId).prepend("<option value=''>All</option>");
 
     $(selectId).append(options);
 }
@@ -419,7 +419,12 @@ $("#taluks").on("change", function () {
 
     $("#areas").empty();
 
-    if (this.value == '') return;
+    if (this.value == '') {
+
+        updateAll({ district_id: district.id });
+
+        return;
+    }
 
     getVillages(district.id, taluks.filter(ele => ele.name == this.value)[0].id);
 
@@ -439,7 +444,12 @@ $("#villages").on("change", function () {
 
     $("#areas").empty();
 
-    if (this.value == '') return;
+    if (this.value == '') {
+
+        updateAll({ district_id: district.id, taluk: taluks.filter(ele => ele.name == $("#taluks").val())[0].id });
+
+        return;
+    }
 
     getAreas(district.id, taluks.filter(ele => ele.name == $("#taluks").val())[0].id, villages.filter(ele => ele.name == this.value)[0].id);
 
@@ -459,7 +469,19 @@ $("#villages").on("change", function () {
 
 $("#areas").on("change", function () {
 
-    if (this.value == '') return;
+    if (this.value == '') {
+
+        updateAll({
+
+            district_id: district.id,
+
+            taluk: parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id),
+
+            village: parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id),
+        });
+
+        return;
+    }
 
     console.log($("#taluks").val(), $("#villages").val(), $("#areas").val())
 
@@ -476,6 +498,26 @@ $("#areas").on("change", function () {
 
     updateAll(params);
 });
+
+$("#ak-reset").on("click", function () {
+
+    resetAll();
+});
+
+function resetAll() {
+
+    getMap({ district_id: district.id })
+
+    getCounts({ district_id: district.id });
+
+    getBar({ district_id: district.id });
+
+    getPie1({ district_id: district.id });
+
+    getPie2({ district_id: district.id });
+
+    getTaluks(district.id);
+}
 
 $(function () {
 
@@ -510,15 +552,5 @@ $(function () {
 
     $("#district").html(district.name);
 
-    getMap({ district_id: district.id })
-
-    getCounts({ district_id: district.id });
-
-    getBar({ district_id: district.id });
-
-    getPie1({ district_id: district.id });
-
-    getPie2({ district_id: district.id });
-
-    getTaluks(district.id);
+    resetAll();
 });

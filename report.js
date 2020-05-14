@@ -265,7 +265,7 @@ $(function () {
 
          if (submitHost != '') {
 
-            $.post ( submitHost, obj, function(res){
+            $.post ( submitHost, JSON.stringify(obj), function(res){
 
                 console.log ( res );
             });

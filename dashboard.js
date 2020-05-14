@@ -235,8 +235,6 @@ function getMap(params) {
 
 function getBar(params) {
 
-    console.log("---------")
-
     $.get(apiHost.concat("/survey/bar"), params, function (res) {
 
         console.log ( getLink ("/survey/bar", params) );
@@ -417,6 +415,8 @@ function getAreas(districtId, talukId, villageId) {
 
 function updateAll(params) {
 
+    console.log("-----API Calls----")
+
     getMap(params);
 
     getCounts(params);
@@ -521,15 +521,7 @@ $("#ak-reset").on("click", function () {
 
 function resetAll() {
 
-    getMap({ district_id: district.id })
-
-    getCounts({ district_id: district.id });
-
-    getBar({ district_id: district.id });
-
-    getPie1({ district_id: district.id });
-
-    getPie2({ district_id: district.id });
+    updateAll({ district_id: district.id })
 
     $("#taluks").empty();
 

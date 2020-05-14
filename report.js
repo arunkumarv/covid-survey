@@ -450,7 +450,7 @@ $(function () {
 
                                 Object.keys(v).forEach(e => str+= e + ", " );
 
-                                console.log ( str )
+                                str += '<br>'
                             }
                             
                             cell = $('<td>' + str + '</td>') 

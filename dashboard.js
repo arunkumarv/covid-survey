@@ -196,6 +196,8 @@ function printError(endpoint, params, res) {
 
 function getMap(params) {
 
+    console.log ('mapParams', params );
+    
     $.get(apiHost.concat("/survey/getmap"), params, function (res) {
 
         console.log('map', res);

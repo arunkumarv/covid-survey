@@ -307,7 +307,10 @@ $(function () {
 
         $("#json").html(JSON.stringify(obj, null, 4))
 
-        let submitHost = $("#submit-host").val();
+        // let submitHost = $("#submit-host").val();
+        let submitHost = $("input[name='submitHost']:checked").val();
+
+        console.log ( submitHost )
 
         if (submitHost != '') {
 

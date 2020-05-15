@@ -1,6 +1,6 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let district = { name: 'Yavatmol', id: 376 };
+let district = { name: 'Yavatmal', id: 376 };
 
 let taluks = null;
 

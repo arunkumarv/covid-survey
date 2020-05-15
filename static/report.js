@@ -303,9 +303,9 @@ $(".export").on('click', function (event) {
 
 $("#response-element").hide();
 
-    $("#mobileSelector").hide();
+$("#mobileSelector").hide();
 
-    $("#typeDateSelector").hide();
+$("#typeDateSelector").hide();
 
 $(function () {
 
@@ -410,77 +410,61 @@ $(function () {
 
         $("#json").html(JSON.stringify(obj, null, 4))
 
-        let submitHost = "https://covid19.cdacchn.in:8080/api/report"
-        // let submitHost = $("input[name='submitHost']:checked").val();
 
-        console.log(submitHost)
 
-        if (submitHost != '') {
+        $.post(apiHost.concat("/api/report"), JSON.stringify(obj), function (res) {
 
-            $.post(submitHost, JSON.stringify(obj), function (res) {
+            console.log(res);
 
-                console.log(res);
+            $("#report tr").remove();
 
-                $("#report tr").remove();
+            var table = $('#report');
 
-                var table = $('#report');
+            table.append("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
 
-                table.append("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
+            for (var i = 0; i < res.length; i++) {
 
-                for (var i = 0; i < res.length; i++) {
+                row = $('<tr />');
 
-                    row = $('<tr />');
+                table.append(row);
 
-                    table.append(row);
+                // console.log ( res[i])
 
-                    // console.log ( res[i])
+                for (let [key, value] of Object.entries(res[i])) {
 
-                    for (let [key, value] of Object.entries(res[i])) {
+                    // console.log(`${key}: ${value}`); 
+                    let cell;
 
-                        // console.log(`${key}: ${value}`); 
-                        let cell;
+                    if (key == 'dataset') {
 
-                        if (key == 'dataset') {
+                        console.log(value)
 
-                            console.log(value)
+                        let str = '';
 
-                            let str = '';
+                        console.log(Object.entries(value))
 
-                            console.log(Object.entries(value))
+                        for (let [k, v] of Object.entries(value)) {
 
-                            for (let [k, v] of Object.entries(value)) {
+                            str += k + ": ";
 
-                                str += k + ": ";
+                            Object.keys(v).forEach(e => str += e + ", ");
 
-                                Object.keys(v).forEach(e => str += e + ", ");
-
-                                str += '<br>'
-                            }
-
-                            cell = $('<td>' + str + '</td>')
-
-                        } else {
-
-                            cell = $('<td>' + value + '</td>')
+                            str += '<br>'
                         }
 
-                        row.append(cell);
+                        cell = $('<td>' + str + '</td>')
+
+                    } else {
+
+                        cell = $('<td>' + value + '</td>')
                     }
 
-
+                    row.append(cell);
                 }
-            });
-            /*  $.ajax({
-                 url: submitHost,
-                 type: 'POST',
-                 data: obj,
-                 contentType: 'application/json; charset=utf-8',
-                 dataType: 'json',
-                 async: false,
-                 success: function (res) {
-                     console.log(res)
-                 }
-             }); */
-        }
+
+
+            }
+        });
+
     });
 });

@@ -1,5 +1,7 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
+let markerIconUrl = "static/red-dot.png";
+
 let district = { name: 'Yavatmal', id: 376 };
 
 let taluks = null;
@@ -11,8 +13,6 @@ let map = null;
 let markers = [];
 
 let groupedBarChartCtx = null, groupedBarChart = null; pie1ChartCtx = null, pie1Chart = null, pie2ChartCtx = null, pie2Chart = null;
-
-let markerIconUrl = "static/red-dot.png";
 
 var MarkerIcon = L.Icon.extend({
     options: {

@@ -143,7 +143,7 @@
                                 placeholder="Mobilenumber">
                         </div>
                         <div class="col-sm-3" id="typeDateSelector">
-                            <input type="date" name="typeDate" id="typeDate" class="form-control" value=2020-05-11>
+                            <input type="date" name="typeDate" id="typeDate" class="form-control" value=2020-05-11 max="2020-05-11">
                         </div>
                     </div>
 
@@ -182,8 +182,9 @@
                         <input type="radio" name="check" value="any">Symptom on Any selected days
                     </td>
                 </tr> -->
-                    <div class="form-group row"> <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
-                            Gender</label>
+                <div id="genderAndAge">
+                    <div class="form-group row"> 
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label">Gender</label>
                         <div class="col-sm-6">
                             <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
                                     name="gender" value="male">Male </div>
@@ -196,24 +197,24 @@
                         </div>
                     </div>
 
-                    <div class="form-group row"> <label for="colFormLabelSm"
-                            class="col-sm-2 col-form-label ">Age</label>
+                    <div class="form-group row"> 
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label ">Age</label>
                         <div class="col-sm-6">
                             Min: <input type="number" name="minAge" id="minAge" value="0">
                             Max: <input type="number" name="maxAge" id="maxAge" value="100">
                         </div>
                     </div>
-                    <div class="form-group row"> <label for="colFormLabelSm" class="col-sm-2 col-form-label "> &nbsp;
-                        </label>
-                        <div class="col-sm-6"> <input type="submit" class="btn btn-primary" value="Submit">
-                        </div>
+                </div>
+                    <div class="form-group row">
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label"> &nbsp;</label>
+                        <div class="col-sm-6"> <input type="submit" class="btn btn-primary" value="Submit"></div>
                     </div>
 
                 </form>
             </div>
         </div>
 
-        <!-- <pre id="json" class="prettyprint"></pre> -->
+        <pre id="json" class="prettyprint"></pre>
         <div class="mt-2 mb-2" id="response-element">
             <button class="btn btn-warning" onclick="downloadReport()">Download pdf</button>
             <a href="#" class="btn btn-outline-info export">Download CSV</a>

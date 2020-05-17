@@ -190,6 +190,7 @@ $('input[type=radio][name=type]').change(function () {
             $("#dateSelector").show();
             $("#mobileSelector").hide();
             $("#typeDateSelector").hide();
+            $("#genderAndAge").show();
             break;
 
         case 'userBased':
@@ -197,6 +198,7 @@ $('input[type=radio][name=type]').change(function () {
             $("#dateSelector").hide();
             $("#mobileSelector").show();
             $("#typeDateSelector").hide();
+            $("#genderAndAge").hide();
             break;
 
         case 'dayBased':
@@ -204,9 +206,26 @@ $('input[type=radio][name=type]').change(function () {
             $("#dateSelector").hide();
             $("#mobileSelector").hide();
             $("#typeDateSelector").show();
+            $("#genderAndAge").show();
             break;
     }
 });
+
+function futureDateDisable() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("typeDate").setAttribute("max", today);
+}
 
 function exportTableToCSV($table, filename) {
 
@@ -308,6 +327,8 @@ $("#mobileSelector").hide();
 $("#typeDateSelector").hide();
 
 $(function () {
+
+    futureDateDisable();
 
     $("#districtName").html(district.name);
 

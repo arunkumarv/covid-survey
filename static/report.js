@@ -20,23 +20,32 @@ function downloadReport() {
     doc.setFontSize(fSize);
     doc.text(20, i, "District: " + district.name);
     i = i + k
+    if ($('input[type=radio][name=type]:checked').val() != 'userBased') {
+        if ($("#taluks").val() != null) {
+            doc.text(20, i, "Taluk: " + $("#taluks").val());
+            i = i + k
+        }
 
-    if ($("#taluks").val() != null) {
-        doc.setFontSize(fSize);
-        doc.text(20, i, "Taluk: " + $("#taluks").val());
-        i = i + k
-    }
+        if ($("#villages").val() != null) {
+            doc.text(20, i, "Village: " + $("#villages").val());
+            i = i + k
+        }
 
-    if ($("#villages").val() != null) {
-        doc.setFontSize(fSize);
-        doc.text(20, i, "Village: " + $("#villages").val());
-        i = i + k
-    }
+        if ($("#areas").val() != null) {
+            doc.text(20, i, "Area: " + $("#areas").val());
+            i = i + k
+        }
+    } else {
 
-    if ($("#areas").val() != null) {
-        doc.setFontSize(fSize);
-        doc.text(20, i, "Area: " + $("#areas").val());
+        doc.text(20, i, "Taluk: " + "All");
         i = i + k
+
+        doc.text(20, i, "Village: " + "All");
+        i = i + k
+
+        doc.text(20, i, "Area: " + "All");
+        i = i + k
+
     }
 
     doc.setFontSize(fSize);
@@ -191,6 +200,7 @@ $('input[type=radio][name=type]').change(function () {
             $("#mobileSelector").hide();
             $("#typeDateSelector").hide();
             $("#genderAndAge").show();
+            $("#taluksVillagesAreas").show()
             break;
 
         case 'userBased':
@@ -199,6 +209,7 @@ $('input[type=radio][name=type]').change(function () {
             $("#mobileSelector").show();
             $("#typeDateSelector").hide();
             $("#genderAndAge").hide();
+            $("#taluksVillagesAreas").hide()
             break;
 
         case 'dayBased':
@@ -207,6 +218,7 @@ $('input[type=radio][name=type]').change(function () {
             $("#mobileSelector").hide();
             $("#typeDateSelector").show();
             $("#genderAndAge").show();
+            $("#taluksVillagesAreas").show()
             break;
     }
 });
@@ -243,12 +255,22 @@ function exportTableToCSV($table, filename) {
 
         csv = '"DISTRICT","' + district.name + '"\r\n';
 
-    if ($("#taluks").val() != null) csv += '"TALUK","' + $("#taluks").val() + '"\r\n';
+    if ($('input[type=radio][name=type]:checked').val() != 'userBased') {
 
-    if ($("#villages").val() != null) csv += '"VILLAGE","' + $("#villages").val() + '"\r\n';
+        if ($("#taluks").val() != null) csv += '"TALUK","' + $("#taluks").val() + '"\r\n';
 
-    if ($("#areas").val() != null) csv += '"AREA","' + $("#areas").val() + '"\r\n';
+        if ($("#villages").val() != null) csv += '"VILLAGE","' + $("#villages").val() + '"\r\n';
 
+        if ($("#areas").val() != null) csv += '"AREA","' + $("#areas").val() + '"\r\n';
+
+    } else {
+
+        csv += '"TALUK","' + "All" + '"\r\n';
+
+        csv += '"VILLAGE","' + "All" + '"\r\n';
+
+        csv += '"AREA","' + "All" + '"\r\n';
+    }
     csv += '"GENDER","' + $("input[name='gender']:checked").val() + '"\r\n';
 
     csv += '"REPORT TYPE","' + $("input[type=radio][name=type]:checked").val() + '"\r\n';
@@ -326,6 +348,163 @@ $("#mobileSelector").hide();
 
 $("#typeDateSelector").hide();
 
+$("#show-details-form").on('submit', function (e) {
+
+    $("#response-element").show();
+
+    e.preventDefault();
+
+    let obj = {};
+
+    obj['district'] = district.id;
+
+    let type = $("input[name='type']:checked").val();
+
+    obj['type'] = type;
+
+    switch (type) {
+
+        case "symptomsBased":
+
+            let symptoms = [];
+
+            $('[name="symptoms"]:checkbox:checked').each(function (i) { symptoms[i] = $(this).val(); });
+
+            obj['symptoms'] = symptoms;
+
+            break;
+
+        case 'userBased':
+
+            let mobile = $('#mobile').val();
+
+            obj['mobile'] = mobile
+
+            break;
+
+        case 'dayBased':
+
+            let typeDate = $('#typeDate').val();
+
+            obj['date'] = typeDate;
+    }
+
+    if (obj['type'] != 'userBased') {
+
+        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
+
+        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
+
+        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => parseInt(ele.id)) : [parseInt(areas.filter(ele => ele.name == $("#areas").val())[0].id)];
+    }
+
+    if (obj['type'] == 'symptomsBased') {
+
+        let dateType = $("input[name='dateType']:checked").val();
+
+        obj['dateType'] = dateType;
+
+        switch (dateType) {
+
+            case 'today':
+
+                // let today = new Date();
+
+                obj['time'] = "today";// today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
+
+                break;
+
+            case 'range':
+
+                let dateMin = $('#dateMin').val();
+
+                let dateMax = $('#dateMax').val();
+
+                obj['time'] = { min: dateMin, max: dateMax };
+
+                break;
+
+            case 'past':
+
+                let past = $("#daysPast option:selected").text();
+
+                obj['time'] = past;
+        }
+    }
+
+    let check = $("input[name='check']:checked").val();
+
+    obj['check'] = check;
+
+    let gender = $("input[name='gender']:checked").val();
+
+    obj['gender'] = gender == 'All' ? ["male", "female", "others"] : [gender];
+
+    obj['age'] = { min: parseInt($("#minAge").val()), max: parseInt($("#maxAge").val()) }
+
+    console.log('object', obj);
+
+    $("#json").html(JSON.stringify(obj, null, 4))
+
+
+
+    $.post(apiHost.concat("/api/report"), JSON.stringify(obj), function (res) {
+
+        console.log(res);
+
+        $("#report tr").remove();
+
+        var table = $('#report');
+
+        table.append("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
+
+        for (var i = 0; i < res.length; i++) {
+
+            row = $('<tr />');
+
+            table.append(row);
+
+            // console.log ( res[i])
+
+            for (let [key, value] of Object.entries(res[i])) {
+
+                // console.log(`${key}: ${value}`); 
+                let cell;
+
+                if (key == 'dataset') {
+
+                    console.log(value)
+
+                    let str = '';
+
+                    console.log(Object.entries(value))
+
+                    for (let [k, v] of Object.entries(value)) {
+
+                        str += k + ": ";
+
+                        Object.keys(v).forEach(e => str += e + ", ");
+
+                        str += '<br>'
+                    }
+
+                    cell = $('<td>' + str + '</td>')
+
+                } else {
+
+                    cell = $('<td>' + value + '</td>')
+                }
+
+                row.append(cell);
+            }
+
+
+        }
+    });
+
+});
+
+
 $(function () {
 
     futureDateDisable();
@@ -333,159 +512,4 @@ $(function () {
     $("#districtName").html(district.name);
 
     getTaluks(district.id);
-
-    $("#show-details-form").on('submit', function (e) {
-
-        $("#response-element").show();
-
-        e.preventDefault();
-
-        let obj = {};
-
-        obj['district'] = district.id;
-
-        console.log($("#taluks").val())
-
-        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
-
-        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
-
-        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => parseInt(ele.id)) : [parseInt(areas.filter(ele => ele.name == $("#areas").val())[0].id)];
-
-        let type = $("input[name='type']:checked").val();
-
-        obj['type'] = type;
-
-        switch (type) {
-
-            case "symptomsBased":
-
-                let symptoms = [];
-
-                $('[name="symptoms"]:checkbox:checked').each(function (i) { symptoms[i] = $(this).val(); });
-
-                obj['symptoms'] = symptoms;
-
-                break;
-
-            case 'userBased':
-
-                let mobile = $('#mobile').val();
-
-                obj['mobile'] = mobile
-
-                break;
-
-            case 'dayBased':
-
-                let typeDate = $('#typeDate').val();
-
-                obj['date'] = typeDate;
-        }
-
-        if (obj['type'] == 'symptomsBased') {
-
-            let dateType = $("input[name='dateType']:checked").val();
-
-            obj['dateType'] = dateType;
-
-            switch (dateType) {
-
-                case 'today':
-
-                    // let today = new Date();
-
-                    obj['time'] = "today";// today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
-
-                    break;
-
-                case 'range':
-
-                    let dateMin = $('#dateMin').val();
-
-                    let dateMax = $('#dateMax').val();
-
-                    obj['time'] = { min: dateMin, max: dateMax };
-
-                    break;
-
-                case 'past':
-
-                    let past = $("#daysPast option:selected").text();
-
-                    obj['time'] = past;
-            }
-        }
-
-        let check = $("input[name='check']:checked").val();
-
-        obj['check'] = check;
-
-        let gender = $("input[name='gender']:checked").val();
-
-        obj['gender'] = gender == 'All' ? ["male", "female", "others"] : [gender];
-
-        obj['age'] = { min: parseInt($("#minAge").val()), max: parseInt($("#maxAge").val()) }
-
-        console.log('object', obj);
-
-        $("#json").html(JSON.stringify(obj, null, 4))
-
-
-
-        $.post(apiHost.concat("/api/report"), JSON.stringify(obj), function (res) {
-
-            console.log(res);
-
-            $("#report tr").remove();
-
-            var table = $('#report');
-
-            table.append("<tr><td>Name</td><td>Phone</td><td>Gender</td><td>Age</td><td>Symptoms</td></tr>");
-
-            for (var i = 0; i < res.length; i++) {
-
-                row = $('<tr />');
-
-                table.append(row);
-
-                // console.log ( res[i])
-
-                for (let [key, value] of Object.entries(res[i])) {
-
-                    // console.log(`${key}: ${value}`); 
-                    let cell;
-
-                    if (key == 'dataset') {
-
-                        console.log(value)
-
-                        let str = '';
-
-                        console.log(Object.entries(value))
-
-                        for (let [k, v] of Object.entries(value)) {
-
-                            str += k + ": ";
-
-                            Object.keys(v).forEach(e => str += e + ", ");
-
-                            str += '<br>'
-                        }
-
-                        cell = $('<td>' + str + '</td>')
-
-                    } else {
-
-                        cell = $('<td>' + value + '</td>')
-                    }
-
-                    row.append(cell);
-                }
-
-
-            }
-        });
-
-    });
 });

@@ -12,6 +12,8 @@ let map = null;
 
 let markers = [];
 
+let bgList = ['bg-info text-white', 'bg-light text-black', 'bg-warning  text-white', 'bg-danger  text-white', 'bg-success  text-white', 'bg-primary  text-white'];
+
 let groupedBarChartCtx = null, groupedBarChart = null; pie1ChartCtx = null, pie1Chart = null, pie2ChartCtx = null, pie2Chart = null;
 
 var MarkerIcon = L.Icon.extend({
@@ -166,10 +168,31 @@ function getCounts(params) {
 
     $.get(apiHost.concat("/survey/count"), params, function (res) {
 
-        // console.log(res);
+        console.log(getLink("/survey/count", params));
 
         if (res.status == true) {
 
+            console.log(res);
+
+            let i = 0;
+
+            $("#counts").empty()
+
+            for (let [name, count] of Object.entries(res.data)) {
+
+                $("#counts").append(`
+                    <div class="col-md-2 col-sm-6 text-center mb-1">
+                        <div class="card ${bgList[i]}">
+                            <div class="card-body"> ${name}
+                                <div id="Family">${count}</div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+
+                i++;
+            }
+            /*
             $("#Citzen").html(res.data.Citzen)
 
             $("#Contact-history").html(res.data['Contact-history'])
@@ -178,9 +201,14 @@ function getCounts(params) {
 
             $("#Family").html(res.data['Family'])
 
-            $("#Hyper-tension").html(res.data['Hyper-tension'])
+            $("#Hyper-tension").html(res.data['Hyper-tension']);
 
-            $("#Travel-history").html(res.data['Travel-history'])
+            $("#Travel-history").html(res.data['Travel-history']);
+            */
+
+        } else {
+
+            printError("/survey/pie1", params, res)
         }
     });
 }
@@ -194,16 +222,16 @@ function printError(endpoint, params, res) {
     console.log('output', res)
 }
 
-function getLink (endpoint, params ){
+function getLink(endpoint, params) {
 
-    return apiHost.concat ( endpoint ,"?" , $.param(params) );
+    return apiHost.concat(endpoint, "?", $.param(params));
 }
 
 function getMap(params) {
 
     $.get(apiHost.concat("/survey/getmap"), params, function (res) {
 
-        console.log ( getLink ("/survey/getmap", params) );
+        console.log(getLink("/survey/getmap", params));
 
         if (res.status == true) {
 
@@ -215,7 +243,7 @@ function getMap(params) {
 
                 // console.log(value)
 
-                markers.push(L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup( value[2] + ": " + value[3] ));
+                markers.push(L.marker([parseFloat(value[0]), parseFloat(value[1])], { icon: markerIcon }).addTo(map).bindPopup(value[2] + ": " + value[3]));
 
                 // markers.push(L.circle([parseFloat(value[0]), parseFloat(value[1])], { color: 'red', fillColor: '#f03', fillOpacity: 0.5, radius: value[2] * 10 }).addTo(map).bindPopup(""+value[2]));
             })
@@ -228,7 +256,7 @@ function getMap(params) {
             }
         } else {
 
-            printError ( "/survey/bar", params, res );
+            printError("/survey/bar", params, res);
         }
     });
 }
@@ -237,7 +265,7 @@ function getBar(params) {
 
     $.get(apiHost.concat("/survey/bar"), params, function (res) {
 
-        console.log ( getLink ("/survey/bar", params) );
+        console.log(getLink("/survey/bar", params));
 
         if (res.status == true) {
 
@@ -278,7 +306,7 @@ function getPie1(params) {
 
     $.get(apiHost.concat("/survey/pie1"), params, function (res) {
 
-        console.log ( getLink ("/survey/pie1", params) );
+        console.log(getLink("/survey/pie1", params));
 
         pie1Chart.data.labels = [];
 
@@ -305,7 +333,7 @@ function getPie2(params) {
 
     $.get(apiHost.concat("/survey/pie2"), params, function (res) {
 
-        console.log ( getLink ("/survey/pie2", params) );
+        console.log(getLink("/survey/pie2", params));
         // console.log('pie2', JSON.stringify(res))
 
         pie2Chart.data.labels = [];

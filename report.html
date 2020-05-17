@@ -32,39 +32,28 @@
                 <form id="show-details-form" name="show-details-form">
 
                     <div class="form-group row">
-                        <label for="colFormLabelSm" class="col-sm-2 col-form-label ">District</label>
-                        <div class="col-sm-4 mt-2" id="districtName"></div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="colFormLabelSm" class="col-form-label ">District</label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-1" id="districtName"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col text-right">
+                            <a class="btn btn-primary" href="./report.html">Reset</a>
+                        </div>
+
                     </div>
-
-                    <div class="form row">
-                        
-                        <div class="form-group col-md-4">
-                            <label for="colFormLabelSm">
-                                Taluks</label>
-
-                            <select name="taluks" class="form-control" id="taluks"></select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="colFormLabelSm">
-                            Villages</label>
-                       
-                            <select name=" villages" class="form-control" id="villages"></select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="colFormLabelSm">
-                                Areas
-                            </label>
-
-                            <select name="areas" class="form-control" id="areas"></select>
-                        </div>
-                    </div>
-
 
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label ">
                             Based
                         </label>
-                        <div class="col-sm-10" style="padding-top: 6px; background-color: rgb(238, 238, 238); border: 1px solid #ccc">
+                        <div class="col-sm-10"
+                            style="padding-top: 6px; background-color: rgb(238, 238, 238); border: 1px solid #ccc">
                             <div class="form-check form-check-inline">
                                 <input type="radio" name="type" value="symptomsBased" class="form-check-input" checked>
                                 <label class="form-check-label"> Symptoms based </label>
@@ -83,7 +72,6 @@
 
                         </div>
                     </div>
-
 
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label "> &nbsp; </label>
@@ -111,7 +99,7 @@
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input type="checkbox" name="symptoms" class="form-check-input"
-                                        value="High Risk Contact">
+                                        value="high risk contact">
                                     <label class="form-check-label"> High Risk Contact</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -119,6 +107,8 @@
                                         value="low risk contact">
                                     <label class="form-check-label"> Low Risk Contact</label>
                                 </div>
+                            </div>
+                            <div class="form-check form-check-inline mt-2">
                                 <div class="form-check form-check-inline">
                                     <input type="checkbox" name="symptoms" class="form-check-input" value="pnc">
                                     <label class="form-check-label"> PNC</label>
@@ -136,6 +126,11 @@
                                     <input type="checkbox" name="symptoms" class="form-check-input" value="others">
                                     <label class="form-check-label"> Others</label>
                                 </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" name="symptoms" class="form-check-input"
+                                        value="history of contact patients">
+                                    <label class="form-check-label">History of Contact Patients</label>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3" id="mobileSelector">
@@ -143,7 +138,8 @@
                                 placeholder="Mobilenumber">
                         </div>
                         <div class="col-sm-3" id="typeDateSelector">
-                            <input type="date" name="typeDate" id="typeDate" class="form-control" value=2020-05-11 max="2020-05-11">
+                            <input type="date" name="typeDate" id="typeDate" class="form-control" value=2020-05-11
+                                max="2020-05-11">
                         </div>
                     </div>
 
@@ -175,36 +171,62 @@
                         </div> -->
                         </div>
                     </div>
-                    <!--  <tr>
-                    <td>Check</td>
-                    <td>
-                        <input type="radio" name="check" value="all" checked>Symptom on All selected days
-                        <input type="radio" name="check" value="any">Symptom on Any selected days
-                    </td>
-                </tr> -->
-                <div id="genderAndAge">
-                    <div class="form-group row"> 
-                        <label for="colFormLabelSm" class="col-sm-2 col-form-label">Gender</label>
-                        <div class="col-sm-6">
-                            <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
-                                    name="gender" value="male">Male </div>
-                            <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
-                                    name="gender" value="female">Female</div>
-                            <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
-                                    name="gender" value="others">Others</div>
-                            <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
-                                    name="gender" value="All" checked>All</div>
+                    <!--  
+                    <tr>
+                        <td>Check</td>
+                        <td>
+                            <input type="radio" name="check" value="all" checked>Symptom on All selected days
+                            <input type="radio" name="check" value="any">Symptom on Any selected days
+                        </td>
+                    </tr> 
+                    -->
+                    <div id="genderAndAge">
+                        <div class="form-group row">
+                            <label for="colFormLabelSm" class="col-sm-2 col-form-label">Gender</label>
+                            <div class="col-sm-6">
+                                <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
+                                        name="gender" value="male">Male </div>
+                                <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
+                                        name="gender" value="female">Female</div>
+                                <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
+                                        name="gender" value="others">Others</div>
+                                <div class="form-check form-check-inline"> <input type="radio" class="form-check-input"
+                                        name="gender" value="All" checked>All</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="colFormLabelSm" class="col-sm-2 col-form-label ">Age</label>
+                            <div class="col-sm-6">
+                                Min: <input type="number" name="minAge" id="minAge" value="0">
+                                Max: <input type="number" name="maxAge" id="maxAge" value="100">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group row"> 
-                        <label for="colFormLabelSm" class="col-sm-2 col-form-label ">Age</label>
-                        <div class="col-sm-6">
-                            Min: <input type="number" name="minAge" id="minAge" value="0">
-                            Max: <input type="number" name="maxAge" id="maxAge" value="100">
+                    <div class="form row" id="taluksVillagesAreas">
+
+                        <div class="form-group col-md-4">
+                            <label for="colFormLabelSm">
+                                Taluks</label>
+
+                            <select name="taluks" class="form-control" id="taluks"></select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="colFormLabelSm">
+                                Villages</label>
+
+                            <select name=" villages" class="form-control" id="villages"></select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="colFormLabelSm">
+                                Areas
+                            </label>
+
+                            <select name="areas" class="form-control" id="areas"></select>
                         </div>
                     </div>
-                </div>
+
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label"> &nbsp;</label>
                         <div class="col-sm-6"> <input type="submit" class="btn btn-primary" value="Submit"></div>

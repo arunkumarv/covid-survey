@@ -566,6 +566,8 @@ function getCurrentUserAndState(){
 
        postData('/user/read', {}, [], function (result) {
 
+        console.log ( res )
+
         let res = {
 
             current_state_id: result.current_state_id,

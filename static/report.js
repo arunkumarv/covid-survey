@@ -1,6 +1,6 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let district = { name: 'Yavatmal', id: 376 };
+let district = null;
 
 let taluks = null;
 
@@ -501,16 +501,7 @@ function getCurrentUserAndState(){
 
        postData('/user/read', {}, [], function (result) {
 
-        let res = {
-
-            current_state_id: result.current_state_id,
-
-            current_user_id: result.current_user_id,
-
-            current_user_name: result.current_user_name
-        };
-
-        resolve(res);
+        resolve(result);
     },
         function (xhr, status, error) {
 
@@ -529,6 +520,8 @@ $(function () {
     futureDateDisable();
 
     getCurrentUserAndState().then (function(res){
+
+        district = { name: res.current_district_name, id:res.current_district_id }
 
         // let district = { name: 'Yavatmal', id: 376 };
         //set this variable globally and update district = null at the top

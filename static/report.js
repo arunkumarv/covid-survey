@@ -495,12 +495,49 @@ $("#show-details-form").on('submit', function (e) {
 
 });
 
+function getCurrentUserAndState(){
+
+    return new Promise( function(resolve, reject) {
+
+       postData('/user/read', {}, [], function (result) {
+
+        let res = {
+
+            current_state_id: result.current_state_id,
+
+            current_user_id: result.current_user_id,
+
+            current_user_name: result.current_user_name
+        };
+
+        resolve(res);
+    },
+        function (xhr, status, error) {
+
+            reject(error);
+        });
+
+    });
+        /*$.post('/user/read',{}, function(result){
+        console.log(result);
+    });*/
+}
+
 
 $(function () {
 
     futureDateDisable();
 
-    $("#districtName").html(district.name);
+    getCurrentUserAndState().then (function(res){
 
-    getTaluks(district.id);
+        // let district = { name: 'Yavatmal', id: 376 };
+        //set this variable globally and update district = null at the top
+
+        $("#districtName").html(district.name);
+
+        getTaluks(district.id);
+
+    });
+
+    
 });

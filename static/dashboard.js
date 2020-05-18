@@ -2,7 +2,7 @@ let apiHost = "https://covid19.cdacchn.in:8080";
 
 let markerIconUrl = "/scripts/libraries/chennai_dashboard/js/red-dot.png";
 
-let district = { name: 'Yavatmal', id: 376 };
+let district = null;// { name: 'Yavatmal', id: 376 };
 
 let taluks = null;
 
@@ -566,18 +566,7 @@ function getCurrentUserAndState(){
 
        postData('/user/read', {}, [], function (result) {
 
-        console.log ( result )
-
-        let res = {
-
-            current_state_id: result.current_state_id,
-
-            current_user_id: result.current_user_id,
-
-            current_user_name: result.current_user_name
-        };
-
-        resolve(res);
+        resolve(result);
     },
         function (xhr, status, error) {
 
@@ -625,7 +614,7 @@ $(function () {
 
     getCurrentUserAndState().then( function ( res ) {
 
-        console.log ( res );
+        district = { name: res.current_district_name, id:current_district_id }
 
         // let district = { name: 'Yavatmal', id: 376 };
         //set this variable globally and update district = null at the top

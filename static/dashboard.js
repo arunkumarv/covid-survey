@@ -560,6 +560,34 @@ function resetAll() {
     getTaluks(district.id);
 }
 
+function getCurrentUserAndState(){
+
+    return new Promise( function(resolve, reject) {
+
+       postData('/user/read', {}, [], function (result) {
+
+        let res = {
+
+            current_state_id: result.current_state_id,
+
+            current_user_id: result.current_user_id,
+
+            current_user_name: result.current_user_name
+        };
+
+        resolve(res);
+    },
+        function (xhr, status, error) {
+
+            reject(error);
+        });
+
+    });
+        /*$.post('/user/read',{}, function(result){
+        console.log(result);
+    });*/
+}
+
 $(function () {
 
     map = L.map('mapid').setView([21.106825, 79.918830], 5);
@@ -593,5 +621,14 @@ $(function () {
 
     $("#district").html(district.name);
 
-    resetAll();
+    getCurrentUserAndState().then( function ( res ) {
+
+        console.log ( res );
+
+        // let district = { name: 'Yavatmal', id: 376 };
+        //set this variable globally and update district = null at the top
+
+        resetAll();
+    });
+    
 });

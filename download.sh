@@ -1,5 +1,8 @@
 #!/bin/sh
-wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/dashboard.html  -P /usr/Apps/cov/views/mvd/chennai_dashboard -O dashboard.html
-wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/report.html -P /usr/Apps/cov/views/mvd/chennai_dashboard  -O report.html
-wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/static/dashboard.js  -P /usr/Apps/cov/public/scripts/libraries/chennai_dashboard/js -O dashboard.js
-wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/static/report.js   -P /usr/Apps/cov/public/scripts/libraries/chennai_dashboard/js -O report.js
+wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/dashboard.html  -O /usr/Apps/cov/views/mvd/chennai_dashboard/dashboard.html
+wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/report.html -O /usr/Apps/cov/views/mvd/chennai_dashboard/report.html
+wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/static/dashboard.js  -O /usr/Apps/cov/public/scripts/libraries/chennai_dashboard/js/dashboard.js
+wget https://raw.githubusercontent.com/arunkumarv/covid-survey/tvm/static/report.js   -O /usr/Apps/cov/public/scripts/libraries/chennai_dashboard/js/report.js
+
+mv dashboard.html /usr/Apps/cov/views/mvd/chennai_dashboard
+mv report.html /usr/Apps/cov/views/mvd/chennai_dashboard

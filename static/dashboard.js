@@ -1,6 +1,6 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let markerIconUrl = "static/red-dot.png";
+let markerIconUrl = "/scripts/libraries/chennai_dashboard/js/red-dot.png";
 
 let district = { name: 'Yavatmal', id: 376 };
 

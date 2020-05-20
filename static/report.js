@@ -382,11 +382,11 @@ $("#show-details-form").on('submit', function (e) {
 
     if (obj['type'] != 'userBased') {
 
-        if ($("#taluks").val() != null) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
+        if ($("#taluks").val() != null && $("#taluks").val() != 'All' ) obj['taluk'] = $("#taluks").val() == 'All' ? taluks.map(ele => parseInt(ele.id)) : [parseInt(taluks.filter(ele => ele.name == $("#taluks").val())[0].id)];
 
-        if ($("#villages").val() != null) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
+        if ($("#villages").val() != null && $("#villages").val() != 'All' ) obj['village'] = $("#villages").val() == 'All' ? villages.map(ele => parseInt(ele.id)) : [parseInt(villages.filter(ele => ele.name == $("#villages").val())[0].id)];
 
-        if ($("#areas").val() != null) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => parseInt(ele.id)) : [parseInt(areas.filter(ele => ele.name == $("#areas").val())[0].id)];
+        if ($("#areas").val() != null && $("#areas").val() != 'All' ) obj['area'] = $("#areas").val() == 'All' ? areas.map(ele => parseInt(ele.id)) : [parseInt(areas.filter(ele => ele.name == $("#areas").val())[0].id)];
     }
 
     if (obj['type'] == 'symptomsBased') {
@@ -437,8 +437,6 @@ $("#show-details-form").on('submit', function (e) {
 
     $("#json").html(JSON.stringify(obj, null, 4))
 
-
-
     $.post(apiHost.concat("/api/report"), JSON.stringify(obj), function (res) {
 
         console.log(res);
@@ -488,8 +486,6 @@ $("#show-details-form").on('submit', function (e) {
 
                 row.append(cell);
             }
-
-
         }
     });
 

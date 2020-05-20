@@ -1,6 +1,6 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let district = { name: 'Yavatmal', id: 376 };
+let district = { name: 'Yavatmal', id: 0 };
 
 let taluks = null;
 
@@ -341,11 +341,13 @@ $("#typeDateSelector").hide();
 
 $("#show-details-form").on('submit', function (e) {
 
-    $("#response-element").show();
-
     e.preventDefault();
 
+    $("#response-element").show();
+
     let obj = {};
+
+    district.id = parseInt($("#distId").val());
 
     obj['district'] = district.id;
 

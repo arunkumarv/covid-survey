@@ -58,7 +58,13 @@ var groupedBarChartData = {
 };
 
 var groupedBarChartOptions = {
-
+    tooltips: {
+        callbacks: {
+            title: function (tooltipItems, data) {
+                return data.labels[tooltipItems[0].index]
+            }
+        }
+    },
     responsive: true,
     legend: {
         position: "top"
@@ -74,7 +80,6 @@ var groupedBarChartOptions = {
                 labelString: 'Citzen Count'
             },
             ticks: {
-                beginAtZero: true,
                 beginAtZero: true,
                 stepValue: 1,
                 max: 50,
@@ -125,6 +130,18 @@ var pie2ChartOptions = {
         text: 'ANC/PNC'
     }
 }
+
+Chart.scaleService.updateScaleDefaults('category', {
+    ticks: {
+        callback: function (tick) {
+            var characterLimit = 20;
+            if (tick.length >= characterLimit) {
+                return tick.slice(0, tick.length).substring(0, characterLimit - 1).trim() + '...';;
+            }
+            return tick;
+        }
+    }
+});
 
 function findBounds(latlngs) {
 
@@ -312,7 +329,7 @@ function getBar(params) {
                 femaleData.push(res.data[value].female);
 
                 otherData.push(res.data[value].other);
-            })
+            });
 
             groupedBarChartData.labels = labels;
 
@@ -322,7 +339,7 @@ function getBar(params) {
 
             groupedBarChartData.datasets[2].data = otherData
 
-            console.log ( citizenCount );
+            console.log(citizenCount);
 
             groupedBarChart.options.scales.yAxes[0].ticks.max = citizenCount;
 

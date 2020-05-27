@@ -35,15 +35,15 @@ var groupedBarChartData = {
     datasets: [
         {
             label: "Male",
-            backgroundColor: "pink",
-            borderColor: "red",
+            backgroundColor: "#03A3FE",
+            borderColor: "#0071b3",
             borderWidth: 1,
             data: []
         },
         {
             label: "Female",
-            backgroundColor: "lightblue",
-            borderColor: "blue",
+            backgroundColor: "#EC49A7",
+            borderColor: "#bf3082",
             borderWidth: 1,
             data: []
         },

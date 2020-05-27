@@ -71,7 +71,7 @@ var groupedBarChartOptions = {
         yAxes: [{
             scaleLabel: {
                 display: true,
-                labelString: 'Count'
+                labelString: 'Citzen Count'
             },
             ticks: {
                 beginAtZero: true,

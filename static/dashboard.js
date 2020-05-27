@@ -12,6 +12,8 @@ let map = null;
 
 let markers = [];
 
+let citizenCount = null;
+
 let bgList = ['bg-info text-white', 'bg-light text-black', 'bg-warning  text-white', 'bg-danger  text-white', 'bg-success  text-white', 'bg-primary  text-white'];
 
 let groupedBarChartCtx = null, groupedBarChart = null; pie1ChartCtx = null, pie1Chart = null, pie2ChartCtx = null, pie2Chart = null;
@@ -57,6 +59,9 @@ var groupedBarChartData = {
 
 var groupedBarChartOptions = {
     responsive: true,
+    scaleSteps: citizenCount,
+    scaleStartValue: 0,
+    scaleStepWidth: 1,
     legend: {
         position: "top"
     },
@@ -181,51 +186,60 @@ function clearMarkers() {
 
 function getCounts(params) {
 
-    $.get(apiHost.concat("/survey/count"), params, function (res) {
+    return new Promise(function (resolve, reject) {
 
-        console.log(getLink("/survey/count", params));
+        $.get(apiHost.concat("/survey/count"), params, function (res) {
 
-        if (res.status == true) {
-            /*
-            console.log(res);
+            console.log(getLink("/survey/count", params));
 
-            let i = 0;
-
-            $("#counts").empty()
-
-            for (let [name, count] of Object.entries(res.data)) {
-
-                $("#counts").append(`
-                    <div class="col-md-2 col-sm-6 text-center mb-1">
-                        <div class="card ${bgList[i]}">
-                            <div class="card-body"> ${name}
-                                <div id="Family">${count}</div>
+            if (res.status == true) {
+                /*
+                console.log(res);
+    
+                let i = 0;
+    
+                $("#counts").empty()
+    
+                for (let [name, count] of Object.entries(res.data)) {
+    
+                    $("#counts").append(`
+                        <div class="col-md-2 col-sm-6 text-center mb-1">
+                            <div class="card ${bgList[i]}">
+                                <div class="card-body"> ${name}
+                                    <div id="Family">${count}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `);
+                    `);
+    
+                    i++;
+                }*/
 
-                i++;
-            }*/
-            
-            $("#Citzen").html(res.data.Citzen)
+                citizenCount = res.data.Citzen;
 
-            $("#Contact-history").html(res.data['Contact-history'])
+                $("#Citzen").html(res.data.Citzen)
 
-            $("#Cold").html(res.data['Cold'])
+                $("#Contact-history").html(res.data['Contact-history'])
 
-            $("#Family").html(res.data['Family'])
+                $("#Cold").html(res.data['Cold'])
 
-            $("#Cough").html(res.data['Cough']);
+                $("#Family").html(res.data['Family'])
 
-            $("#Fever").html(res.data['Fever']);
-            
+                $("#Cough").html(res.data['Cough']);
 
-        } else {
+                $("#Fever").html(res.data['Fever']);
 
-            printError("/survey/pie1", params, res)
-        }
+                resolve();
+
+            } else {
+
+                printError("/survey/pie1", params, res);
+
+                reject();
+            }
+        });
     });
+
 }
 
 function printError(endpoint, params, res) {
@@ -306,6 +320,8 @@ function getBar(params) {
             groupedBarChartData.datasets[1].data = femaleData
 
             groupedBarChartData.datasets[2].data = otherData
+
+            groupedBarChartOptions.scaleSteps = citizenCount;
 
             groupedBarChart.update();
 
@@ -462,9 +478,10 @@ function updateAll(params) {
 
     getMap(params);
 
-    getCounts(params);
+    getCounts(params).then(function () {
 
-    getBar(params);
+        getBar(params);
+    });
 
     getPie1(params);
 

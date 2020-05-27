@@ -103,7 +103,7 @@ var pie1ChartData = {
     labels: [],
     datasets: [{
         label: "Male Female Others",
-        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+        backgroundColor: [ "#EC49A7", "#03A3FE","#3cba9f", "#e8c3b9", "#c45850"],
         data: []
     }]
 }

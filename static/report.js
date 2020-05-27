@@ -1,6 +1,6 @@
 let apiHost = "https://covid19.cdacchn.in:8080";
 
-let district = { name: 'Yavatmal', id: 0 };
+let district = { name: 'Yavatmal', id: 376 };
 
 let taluks = null;
 
@@ -96,6 +96,8 @@ function resToKeyValue(obj) {
 
 function getTaluks(districtId) {
     // https://covid19.cdacchn.in:8080/survey/gettaluk?district_id=376
+
+    console.log ( districtId );
 
     $.get(apiHost.concat("/survey/gettaluk"), { district_id: districtId }, function (res) {
 
@@ -499,6 +501,8 @@ $(function () {
     futureDateDisable();
 
     $("#districtName").html(district.name);
+
+    district.id = $("#distId").val();
 
     getTaluks(district.id);
 });

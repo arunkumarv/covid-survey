@@ -66,18 +66,24 @@ var groupedBarChartOptions = {
     },
     scales: {
         yAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Count'
+            },
             ticks: {
                 beginAtZero: true,
-                
-                userCallback: function(label, index, labels) {
-
+                userCallback: function (label, index, labels) {
                     if (Math.floor(label) === label) {
-
                         return label;
                     }
-
                 },
             }
+        }],
+        xAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Symptoms'
+            },
         }]
     }
 }
@@ -180,7 +186,7 @@ function getCounts(params) {
         console.log(getLink("/survey/count", params));
 
         if (res.status == true) {
-
+            /*
             console.log(res);
 
             let i = 0;
@@ -200,20 +206,20 @@ function getCounts(params) {
                 `);
 
                 i++;
-            }
-            /*
+            }*/
+            
             $("#Citzen").html(res.data.Citzen)
 
             $("#Contact-history").html(res.data['Contact-history'])
 
-            $("#Diabetes").html(res.data['Diabetes'])
+            $("#Cold").html(res.data['Cold'])
 
             $("#Family").html(res.data['Family'])
 
-            $("#Hyper-tension").html(res.data['Hyper-tension']);
+            $("#Cough").html(res.data['Cough']);
 
-            $("#Travel-history").html(res.data['Travel-history']);
-            */
+            $("#Fever").html(res.data['Fever']);
+            
 
         } else {
 

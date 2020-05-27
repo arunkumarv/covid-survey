@@ -58,10 +58,8 @@ var groupedBarChartData = {
 };
 
 var groupedBarChartOptions = {
+
     responsive: true,
-    scaleSteps: citizenCount,
-    scaleStartValue: 0,
-    scaleStepWidth: 1,
     legend: {
         position: "top"
     },
@@ -77,6 +75,9 @@ var groupedBarChartOptions = {
             },
             ticks: {
                 beginAtZero: true,
+                beginAtZero: true,
+                stepValue: 1,
+                max: 50,
                 userCallback: function (label, index, labels) {
                     if (Math.floor(label) === label) {
                         return label;
@@ -321,7 +322,9 @@ function getBar(params) {
 
             groupedBarChartData.datasets[2].data = otherData
 
-            groupedBarChartOptions.scaleSteps = citizenCount;
+            console.log ( citizenCount );
+
+            groupedBarChart.options.scales.yAxes[0].ticks.max = citizenCount;
 
             groupedBarChart.update();
 

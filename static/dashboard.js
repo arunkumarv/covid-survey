@@ -339,7 +339,7 @@ function getBar(params) {
 
             groupedBarChartData.datasets[2].data = otherData
 
-            console.log(citizenCount);
+            // console.log(citizenCount);
 
             groupedBarChart.options.scales.yAxes[0].ticks.max = citizenCount;
 
@@ -616,7 +616,7 @@ $(function () {
 
     map = L.map('mapid').setView([21.106825, 79.918830], 5);
 
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 'attribution': 'Map data &copy; OpenStreetMap contributors' }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 'attribution': 'Map data &copy; OpenStreetMap contributors' }).addTo(map);
     // L.tileLayer.wms('https://bhuvan-vec1.nrsc.gov.in/bhuvan/gwc/service/wms?', {layers: 'indiainf',maxZoom: 18 }).addTo(map);
 
     groupedBarChartCtx = document.getElementById("groupedBarChart").getContext("2d");
